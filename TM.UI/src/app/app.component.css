@@ -1,0 +1,43 @@
+.main {
+  background: linear-gradient(
+    180deg,
+    rgba(246, 249, 255, 1) 0%,
+    rgba(255, 255, 255, 1) 45%
+  );
+  width: 100%;
+  border-radius: 25px;
+}
+
+.header {
+  padding: 10px 20px;
+}
+
+.header .title {
+  display: flex;
+  align-items: center;
+  margin-bottom: 10px;
+}
+
+.header .title .title-name {
+  font-size: 18px;
+  font-weight: bold;
+  margin-left: 10px;
+}
+
+.avatars{
+  display: flex;
+  align-items: center;
+  margin-left: 10px;
+  font-weight: bold;
+}
+
+.avatar img{
+  width: 25px;
+  height: 25px;
+  margin-left: -10px;
+
+  border-radius: 50%;
+}
+.avatar{
+  border-radius: 50%;
+}
