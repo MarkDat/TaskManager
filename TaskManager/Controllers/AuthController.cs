@@ -17,7 +17,7 @@ using TM.API.Services.Users;
 
 namespace TM.API.Controllers
 {
-    [Route("api/auth")]
+    [Route("api/[controller]")]
     [ApiController]
     public class AuthController : BaseController
     {
@@ -37,8 +37,6 @@ namespace TM.API.Controllers
         /// <param name="request">username, password</param>
         /// <returns>status user</returns>
         [HttpPost("login")]
-        [ProducesResponseType(typeof(IActionResult), StatusCodes.Status200OK)]
-        [ProducesResponseType(typeof(IActionResult), StatusCodes.Status400BadRequest)]
         public async Task<LoginUserResponse> Login([FromBody] LoginUserRequest request)
         {
            var user = await _service.AuthenticateUser(request);

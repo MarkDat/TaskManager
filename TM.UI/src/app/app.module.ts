@@ -16,6 +16,8 @@ import {
   DxFormModule,
   DxDataGridModule,
   DxBulletModule,
+  DxLoadPanelModule,
+  DxListModule
 } from 'devextreme-angular';
 import DataSource from 'devextreme/data/data_source';
 import { NgCircleProgressModule } from 'ng-circle-progress';
@@ -42,7 +44,7 @@ const appRoutes: Routes = [
     component: LoginComponent,
   },
   {
-    path: 'kanban',
+    path: 'projects/:id/kanban',
     component: KanbanComponent
   },
   {
@@ -71,6 +73,8 @@ const appRoutes: Routes = [
     HttpClientModule,
     BrowserModule,
     DxPopupModule,
+    DxLoadPanelModule,
+    DxListModule,
     RouterModule.forRoot(appRoutes),
     NgCircleProgressModule.forRoot({
       radius: 20,

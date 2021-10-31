@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using GMPMS.Entities.Resources;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
@@ -17,6 +18,7 @@ using TM.Domain.Entities.Projects;
 using TM.Domain.Entities.Users;
 using TM.Domain.Interfaces;
 using TM.Domain.Shared;
+using TM.Domain.Utilities;
 
 namespace TM.API.Services.Projects
 {
@@ -58,7 +60,7 @@ namespace TM.API.Services.Projects
 
                 var user = await UnitOfWork.Repository<User>().FindAsync(request.UserId);
                 if (user == null)
-                    throw new KeyNotFoundException();
+                    throw new HttpException(string.Format(Messages.RecordNotFound, "user"));
 
                 await UnitOfWork.Repository<Project>().InsertAsync(newProject, true);
 

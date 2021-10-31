@@ -1,6 +1,8 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
+import { finalize } from 'rxjs/operators';
 import { LoginUserRequest, LoginUserResponse } from '../../../models/user.class';
 import { AuthService } from '../../../services/auth.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-login',
@@ -8,22 +10,33 @@ import { AuthService } from '../../../services/auth.service';
   styleUrls: ['./login.component.css']
 })
 export class LoginComponent implements OnInit {
-  userRequest : LoginUserRequest = {
-    userName : '',
-    password : ''
+
+  userRequest: LoginUserRequest = {
+    userName: '',
+    password: ''
   };
-  userResponse : LoginUserResponse; 
+  userResponse: LoginUserResponse;
+  isLoading: boolean = false;
 
   constructor(
-    private userrService : AuthService
+    private userService: AuthService,
+    private router: Router
   ) { }
 
   ngOnInit(): void {
   }
 
-  onClickLogin(){
-      this.userrService.login(this.userRequest).subscribe(data =>{
-          console.log(data);
-      });
+  onClickLogin() {
+    this.isLoading = true;
+
+    this.userService.login(this.userRequest).pipe(finalize(() => {
+      this.isLoading = false;
+    })).subscribe(data => {
+      sessionStorage.setItem('tkn', data.message);
+      this.router.navigate(['projects']).then();
+    }, err => {
+      this.userRequest.userName = '';
+      this.userRequest.password = '';
+    });
   }
 }

@@ -1,5 +1,11 @@
-import { Component, OnInit } from '@angular/core';
-import { AppNotify } from 'src/app/common/AppNotify.class';
+import { Component, OnInit, ViewChild } from '@angular/core';
+import { Router } from '@angular/router';
+import { DxPopupComponent } from 'devextreme-angular';
+import DataSource from 'devextreme/data/data_source';
+import { finalize } from 'rxjs/operators';
+import { AddProjectRequest, GetProjectResponse } from 'src/app/models/project.class';
+import { AppNotify } from '../../common/AppNotify.class';
+import { ProjectService } from '../../services/project.service';
 
 @Component({
   selector: 'app-projects',
@@ -8,39 +14,55 @@ import { AppNotify } from 'src/app/common/AppNotify.class';
 })
 export class ProjectsComponent implements OnInit {
 
+  @ViewChild('popup', {static: true}) popup: DxPopupComponent;
   popupVisible = false;
   createNewProjectButtonOptions: any;
   closeButtonOptions: any;
-  newNameProject : string;
-  constructor() { }
+  newNameProject: string;
+  isLoading: boolean = false;
+  projects: GetProjectResponse[];
+  
+  constructor(
+    private projectService: ProjectService,
+    private router: Router
+  ) { }
 
   ngOnInit(): void {
-    this.onClickCreateProjectPopup();
-    this.onClickClosePopup();
+    this.loadProjects();
+  }
+  
+  loadProjects(){
+    this.projectService.getProjectsByCurrentUser().subscribe(res=>{
+      this.projects = res;
+    });
   }
 
-  onClickClosePopup(){
-    this.closeButtonOptions = {
-      text: "Close",
-      onClick: function(e) {
-          this.popupVisible = false;
-      }
-    };
+  onClickCreateProjectPopup() {
+    this.isLoading = true;
+    
+    
+
+    var newProject = new AddProjectRequest();
+    newProject.name = this.newNameProject;
+
+    this.projectService.addNewProject(newProject).pipe(finalize(()=>{
+        this.isLoading = false;
+    })).subscribe(res => {
+
+      AppNotify.success("Created new a project.");
+      this.loadProjects();
+      this.onActionPopup();
+    });
   }
 
-  onClickCreateProjectPopup(){
-    this.createNewProjectButtonOptions = {
-      icon: "check",
-      type: "success",
-      text: "Create",
-      onClick: function(e) {
-        AppNotify.success('Project is created');
-        this.popupVisible = false;
-      }
-  };
+  onActionPopup() {
+    this.popupVisible = !this.popupVisible;
   }
 
-  showPopupCreate(){
-    this.popupVisible = true;
+  onCellClick(e){
+    if(e.columnIndex != 0){
+      console.log(e.data);
+      this.router.navigate(['projects',e.data.id,'kanban']);
+    }
   }
 }

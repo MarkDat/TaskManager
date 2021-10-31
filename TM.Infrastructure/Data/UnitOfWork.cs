@@ -66,7 +66,10 @@ namespace TM.Infrastructure.Data
             await _transaction.DisposeAsync();
             _transaction = null;
         }
-
+        public void SetIsolationLevel(IsolationLevel isolationLevel)
+        {
+            _isolationLevel = isolationLevel;
+        }
 
         public void Dispose()
         {

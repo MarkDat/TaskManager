@@ -31,9 +31,9 @@ namespace TM.Infrastructure.Data.Repositories
                             .Where(_ => _.ProjectMembers.Any(_ => _.ProjectId == projectId))
                             .ToListAsync();
         }
-        public User Login(string userName, string password)
+        public async Task<User> Login(string userName, string password)
         {
-            return Entities.FirstOrDefault(_ => _.UserName.Equals(userName)
+            return await Entities.FirstOrDefaultAsync(_ => _.UserName.Equals(userName)
                                                         && _.Password.Equals(password));
         }
     }

@@ -1,53 +1,49 @@
-<span style="font-size: 20px; font-weight: bold;">PROJECTS</span><br>
-<dx-button icon="plus" (onClick)="showPopupCreate()" type="default" [style.margin-bottom.px]="15" [style.margin-top.px]="5">
-</dx-button>
-<dx-data-grid #projects class="-grid" [dataSource]="''" [showColumnLines]="true"
-		[wordWrapEnabled]="true" [columnAutoWidth]="true" [showBorders]="true" [width]="'100%'"
-		[noDataText]="'No projects to display'">
-		<dxo-remote-operations [sorting]="true" [filtering]="true" [paging]="true">
-		</dxo-remote-operations>
-		<dxo-load-panel [enabled]="false"></dxo-load-panel>
-		<dxo-paging [pageSize]="10"></dxo-paging>
-		<dxo-pager [showNavigationButtons]="true" [showPageSizeSelector]="true">
-		</dxo-pager>
-		<dxo-filter-row [visible]="true" [showOperationChooser]="true" [applyFilter]="'auto'">></dxo-filter-row>
-		<dxo-header-filter [visible]="false"></dxo-header-filter>
-		<dxi-column [width]="60" alignment="center" cellTemplate="actionProperty">
+<div style="font-size: 20px; font-weight: bold; text-align: center;">PROJECTS</div><br>
+<div [style.margin-left]="'25%'">
+	<dx-button icon="plus" (onClick)="onActionPopup()" type="default" [style.margin-bottom.px]="15"
+		[style.margin-top.px]="5">
+	</dx-button>
+	<dx-data-grid id="gridContainer" [width]="500" [dataSource]="projects" keyExpr="id" [showBorders]="true"
+	[showColumnLines]="true"
+	[wordWrapEnabled]="true"
+	[showBorders]="true"
+	[rowAlternationEnabled]="true"
+	(onCellClick)="onCellClick($event)">
+		<dxi-column [width]="40" alignment="center" cellTemplate="actionProperty">
 			<div class="d-flex" *dxTemplate="let cellData of 'actionProperty'">
-				<i class="edit-icon mr-2"></i>
-				<i class="delete-icon"></i>
+				<i class="dx-icon-edit mr-2"></i>
+				<i class="dx-icon-trash" style="color: red;"></i>
 			</div>
 		</dxi-column>
-		<dxi-column dataField="name" [width]="200" caption="Project Name"></dxi-column>
-		<!-- <dxi-column dataField="contactPm" [width]="150" caption="Contact PM"></dxi-column> -->
-</dx-data-grid>
-
-<dx-popup
-[width]="300"
-[height]="200"
-[showTitle]="true"
-title="Create new project"
-[dragEnabled]="false"
-[closeOnOutsideClick]="true"
-[showCloseButton]="false"
-container=".dx-viewport"
-[(visible)]="popupVisible">
-<dxi-toolbar-item
-    widget="dxButton"
-    toolbar="bottom"
-    location="before"
-    [options]="createNewProjectButtonOptions">
-</dxi-toolbar-item>
-<dxi-toolbar-item
-    widget="dxButton"
-    toolbar="bottom"
-    location="after"
-    [options]="closeButtonOptions">
-</dxi-toolbar-item>
-<div *dxTemplate="let data of 'content'">
-    <p>
-        Name Project:
-        <dx-text-box [(value)]="newNameProject" [placeholder]="'Enter new project name'"></dx-text-box>
-    </p>
+		<dxi-column dataField="name" dataType="string" [width]="200" caption="Project Name" ></dxi-column>
+		<dxi-column dataField="projectMembers" dataType="string" [width]="200" caption="Project Member" cellTemplate="projectMembers">
+			<div class="" *dxTemplate="let cellData of 'projectMembers'">
+				<div *ngFor="let item of cellData.data.projectMembers">
+						{{item.user.firstName + " " + item.user.lastName + ", "}}
+				</div>
+			</div>
+		</dxi-column>
+	</dx-data-grid>
 </div>
+
+
+
+
+
+<dx-popup #popup [width]="300" [height]="200" [showTitle]="true" title="Create new project" [dragEnabled]="false"
+	[closeOnOutsideClick]="true" [showCloseButton]="false" container=".dx-viewport" [(visible)]="popupVisible">
+	<div *dxTemplate="let data of 'content'">
+		<p>
+			Name Project:
+			<dx-text-box [(value)]="newNameProject" [placeholder]="'Enter new project name'"></dx-text-box>
+		</p><br>
+		<div class="button-popup">
+			<dx-button [text]="'Create'" [icon]="'check'" [type]="'success'" (onClick)="onClickCreateProjectPopup()">
+			</dx-button>
+			<dx-button [text]="'Close'" (onClick)="onActionPopup()">
+			</dx-button>
+		</div>
+	</div>
 </dx-popup>
+
+<dx-load-panel [shading]="true" [(visible)]="isLoading" shadingColor="rgba(0,0,0,0.4)"></dx-load-panel>

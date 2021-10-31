@@ -17,7 +17,7 @@ using TM.API.Services.Projects;
 namespace TM.API.Controllers
 {
     [Authorize]
-    [Route("api/[controller]")]
+    [Route("api/project")]
     [ApiController]
     public class ProjectController : BaseController
     {

@@ -9,6 +9,6 @@ namespace TM.Domain.Entities.Users
         Task<User> NewUser(string userName
             , string password);
         Task<IEnumerable<User>> UsersInProjectAsync(int? projectId);
-        User Login(string userName, string password);
+        Task<User> Login(string userName, string password);
     }
 }

@@ -1,0 +1,18 @@
+.button-popup{
+    display: flex;
+    justify-content: space-between;
+}
+
+#gridContainer i{
+    cursor: pointer;
+    color: blue;
+}
+
+
+#gridContainer .color-red{
+    color: red;
+}
+
+.action{
+    margin-right: 15px;
+}

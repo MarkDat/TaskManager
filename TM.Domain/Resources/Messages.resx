@@ -1,0 +1,423 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<root>
+  <!-- 
+    Microsoft ResX Schema 
+    
+    Version 2.0
+    
+    The primary goals of this format is to allow a simple XML format 
+    that is mostly human readable. The generation and parsing of the 
+    various data types are done through the TypeConverter classes 
+    associated with the data types.
+    
+    Example:
+    
+    ... ado.net/XML headers & schema ...
+    <resheader name="resmimetype">text/microsoft-resx</resheader>
+    <resheader name="version">2.0</resheader>
+    <resheader name="reader">System.Resources.ResXResourceReader, System.Windows.Forms, ...</resheader>
+    <resheader name="writer">System.Resources.ResXResourceWriter, System.Windows.Forms, ...</resheader>
+    <data name="Name1"><value>this is my long string</value><comment>this is a comment</comment></data>
+    <data name="Color1" type="System.Drawing.Color, System.Drawing">Blue</data>
+    <data name="Bitmap1" mimetype="application/x-microsoft.net.object.binary.base64">
+        <value>[base64 mime encoded serialized .NET Framework object]</value>
+    </data>
+    <data name="Icon1" type="System.Drawing.Icon, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
+        <value>[base64 mime encoded string representing a byte array form of the .NET Framework object]</value>
+        <comment>This is a comment</comment>
+    </data>
+                
+    There are any number of "resheader" rows that contain simple 
+    name/value pairs.
+    
+    Each data row contains a name, and value. The row also contains a 
+    type or mimetype. Type corresponds to a .NET class that support 
+    text/value conversion through the TypeConverter architecture. 
+    Classes that don't support this are serialized and stored with the 
+    mimetype set.
+    
+    The mimetype is used for serialized objects, and tells the 
+    ResXResourceReader how to depersist the object. This is currently not 
+    extensible. For a given mimetype the value must be set accordingly:
+    
+    Note - application/x-microsoft.net.object.binary.base64 is the format 
+    that the ResXResourceWriter will generate, however the reader can 
+    read any of the formats listed below.
+    
+    mimetype: application/x-microsoft.net.object.binary.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Binary.BinaryFormatter
+            : and then encoded with base64 encoding.
+    
+    mimetype: application/x-microsoft.net.object.soap.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Soap.SoapFormatter
+            : and then encoded with base64 encoding.
+
+    mimetype: application/x-microsoft.net.object.bytearray.base64
+    value   : The object must be serialized into a byte array 
+            : using a System.ComponentModel.TypeConverter
+            : and then encoded with base64 encoding.
+    -->
+  <xsd:schema id="root" xmlns="" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
+    <xsd:import namespace="http://www.w3.org/XML/1998/namespace" />
+    <xsd:element name="root" msdata:IsDataSet="true">
+      <xsd:complexType>
+        <xsd:choice maxOccurs="unbounded">
+          <xsd:element name="metadata">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" />
+              </xsd:sequence>
+              <xsd:attribute name="name" use="required" type="xsd:string" />
+              <xsd:attribute name="type" type="xsd:string" />
+              <xsd:attribute name="mimetype" type="xsd:string" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="assembly">
+            <xsd:complexType>
+              <xsd:attribute name="alias" type="xsd:string" />
+              <xsd:attribute name="name" type="xsd:string" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="data">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+                <xsd:element name="comment" type="xsd:string" minOccurs="0" msdata:Ordinal="2" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" msdata:Ordinal="1" />
+              <xsd:attribute name="type" type="xsd:string" msdata:Ordinal="3" />
+              <xsd:attribute name="mimetype" type="xsd:string" msdata:Ordinal="4" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="resheader">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" />
+            </xsd:complexType>
+          </xsd:element>
+        </xsd:choice>
+      </xsd:complexType>
+    </xsd:element>
+  </xsd:schema>
+  <resheader name="resmimetype">
+    <value>text/microsoft-resx</value>
+  </resheader>
+  <resheader name="version">
+    <value>2.0</value>
+  </resheader>
+  <resheader name="reader">
+    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <resheader name="writer">
+    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <data name="EmailIsUsed" xml:space="preserve">
+    <value>This email already belongs to another {0}</value>
+  </data>
+  <data name="EmailIsExistingInSystem" xml:space="preserve">
+    <value>This email is existing in the system</value>
+  </data>
+  <data name="NoPermissionToUpdateProperty" xml:space="preserve">
+    <value>You don't have permission to update the property</value>
+  </data>
+  <data name="NoPermissionToUpdateLease" xml:space="preserve">
+    <value>You don't have permission to update the lease</value>
+  </data>
+  <data name="NoPermissionToSignatureAuthority" xml:space="preserve">
+    <value>You don't have permission to signature the authority</value>
+  </data>
+  <data name="NoPermissionToSignatureLease" xml:space="preserve">
+    <value>You don't have permission to signature the lease</value>
+  </data>
+  <data name="NoPermissionToSignatureContract" xml:space="preserve">
+    <value>You don't have permission to signature the contract</value>
+  </data>
+  <data name="CannotDeleteTheLease" xml:space="preserve">
+    <value>You can not delete the lease, it's the current lease of the property</value>
+  </data>
+  <data name="CannotRemoveTheLeaseBecauseItsSigned" xml:space="preserve">
+    <value>You can not delete the lease, it's signed</value>
+  </data>
+  <data name="CannotDeleteTheAuthority" xml:space="preserve">
+    <value>You can not delete the authority, it's the current authority of the property</value>
+  </data>
+  <data name="CannotRemoveTheAuthorityBecauseItsSigned" xml:space="preserve">
+    <value>You can not delete the authority, it's signed</value>
+  </data>
+  <data name="PleaseInput" xml:space="preserve">
+    <value>Please input the {0}</value>
+  </data>
+  <data name="PleaseSelect" xml:space="preserve">
+    <value>Please select the {0}</value>
+  </data>
+  <data name="RecordAlreadyExistsPleaseTryAnother" xml:space="preserve">
+    <value>The {0} already exists, please try another</value>
+  </data>
+  <data name="RecordNotFound" xml:space="preserve">
+    <value>The {0} is not found</value>
+  </data>
+  <data name="TheLeaseAlreadyCurrentLeaseForAuthority" xml:space="preserve">
+    <value>The lease already current lease for authority</value>
+  </data>
+  <data name="TheAttributeAlreadyAdded" xml:space="preserve">
+    <value>The attribute is already added. Please try another</value>
+  </data>
+  <data name="TheFixedAssetAlreadyAdded" xml:space="preserve">
+    <value>The fixed asset is already added. Please try another</value>
+  </data>
+  <data name="CanNotDeleteOwnerParty" xml:space="preserve">
+    <value>Can not delete this owner, having {0} party(ies) in this owner!</value>
+  </data>
+  <data name="CanNotDeleteOwnerProperty" xml:space="preserve">
+    <value>Can not delete this owner, having {0} property(s) in this owner!</value>
+  </data>
+  <data name="AttributeIsBeingUsed" xml:space="preserve">
+    <value>Can not delete this attribute, it is being used for properties</value>
+    <comment>AttributeIsBeingUsed</comment>
+  </data>
+  <data name="FixedAssetIsBeingUsed" xml:space="preserve">
+    <value>Can not delete this fixed asset, it is being used for properties</value>
+    <comment>FixedAssetIsBeingUsed</comment>
+  </data>
+  <data name="PropertyIsBeingUsed" xml:space="preserve">
+    <value>Can not delete this property because it is being used for lease or authority</value>
+  </data>
+  <data name="AuthorityTypeIsBeingUsed" xml:space="preserve">
+    <value>Can not delete this authority type, it is being used for authorities</value>
+  </data>
+  <data name="LeaseTypeIsBeingUsed" xml:space="preserve">
+    <value>Can not delete this lease type, it is being used for leases</value>
+  </data>
+  <data name="ReferralSourceIsBeingUsed" xml:space="preserve">
+    <value>Can not delete this referral source, it is being used for properties</value>
+  </data>
+  <data name="PowerSourceIsBeingUsed" xml:space="preserve">
+    <value>Can not delete this power source, it is being used for fixed asset</value>
+  </data>
+  <data name="SpecialConditionIsBeingUsed" xml:space="preserve">
+    <value>Can not delete this special condition, it is being used for property or lease</value>
+  </data>
+  <data name="RentTypeIsBeingUsed" xml:space="preserve">
+    <value>Can not delete this rent type, it is being used for lease rent term</value>
+  </data>
+  <data name="PropertyTypeIsBeingUsed" xml:space="preserve">
+    <value>Can not delete this property type, it is being used for properties</value>
+  </data>
+  <data name="AgencyAreaIsBeingUsed" xml:space="preserve">
+    <value>Can not delete this agency area, it is being used for properties</value>
+    <comment>AgencyAreaIsBeingUsed</comment>
+  </data>
+  <data name="EmployeeIsBeingUsed" xml:space="preserve">
+    <value>Can not delete this employee because it is being used for properties</value>
+  </data>
+  <data name="TenantIsBeingUsed" xml:space="preserve">
+    <value>Can not delete this tenant because it is being used for leases</value>
+  </data>
+  <data name="IncorrectCredential" xml:space="preserve">
+    <value>Incorrect email/password. Please try again.</value>
+  </data>
+  <data name="PasswordIsIncorrect" xml:space="preserve">
+    <value>Password is incorrect.</value>
+  </data>
+  <data name="EmailIsAlreadyRegistered" xml:space="preserve">
+    <value>Email is already registered. Please try another</value>
+  </data>
+  <data name="TheEmailIsNotRegisteredAnAccountYet" xml:space="preserve">
+    <value>The email is not registered an account yet</value>
+  </data>
+  <data name="EmailNotValid" xml:space="preserve">
+    <value>The email is invalid</value>
+  </data>
+  <data name="CanNotDeleteLoggedUser" xml:space="preserve">
+    <value>Can not delete logged user!</value>
+  </data>
+  <data name="OnlySystemAdministratorCanCreateNewEmployee" xml:space="preserve">
+    <value>Only System Administrator can create new employee!</value>
+  </data>
+  <data name="CanNotDeleteItLinked" xml:space="preserve">
+    <value>Can not delete this {0}, it's linked to the {1}</value>
+  </data>
+  <data name="EventStatusIsBeingUsed" xml:space="preserve">
+    <value>Can not delete the status, it is being used for event status</value>
+  </data>
+  <data name="PropertyStatusIsBeingUsed" xml:space="preserve">
+    <value>Can not delete the status, it is being used for properties</value>
+  </data>
+  <data name="PropertyStatusIsBeingUsedForAgency" xml:space="preserve">
+    <value>Can not delete the status, it is being used for agency</value>
+  </data>
+  <data name="PropertyStatusIsBeingUsedForLease" xml:space="preserve">
+    <value>Can not delete the status, it is being used for leases</value>
+  </data>
+  <data name="PropertyStatusIsBeingUsedForAuthority" xml:space="preserve">
+    <value>Can not delete the status, it is being used for authorities</value>
+  </data>
+  <data name="AuthorityDateOverlapped" xml:space="preserve">
+    <value>There is already another Authority with the same date range</value>
+  </data>
+  <data name="ExpiryDateCannotBeSmallerThanStartDate" xml:space="preserve">
+    <value>The expiry date cannot be smaller than start date</value>
+  </data>
+  <data name="LeaseDateOverlapped" xml:space="preserve">
+    <value>There is already another Lease with the same date range</value>
+  </data>
+  <data name="LeaseTenantDateOverlapped" xml:space="preserve">
+    <value>There is already another Lease with the same date range and tenant</value>
+  </data>
+  <data name="AuthorityIsSentToOwnerSoCanNotEdit" xml:space="preserve">
+    <value>The authority is sent to owner, can not edit this authority</value>
+  </data>
+  <data name="PleaseAddAtLeastOneContactForThisOwnerBeforeSendingEmailAgain" xml:space="preserve">
+    <value>Please add at least one contact for this owner before sending email again.</value>
+  </data>
+  <data name="PleaseDefineTheEmailBody" xml:space="preserve">
+    <value>Please define the Email Body for {0} via Setup</value>
+  </data>
+  <data name="PleaseSelectTheLeaseType" xml:space="preserve">
+    <value>Please select the lease type</value>
+  </data>
+  <data name="PleaseAddAtLeastOnePropertyTypeForThisType" xml:space="preserve">
+    <value>Please add at least one property type for this type</value>
+  </data>
+  <data name="CommunicationItemIsBeingUsed" xml:space="preserve">
+    <value>Can not delete this item, it is being used for communication item</value>
+  </data>
+  <data name="CommunicationItemTypeIsBeingUsed" xml:space="preserve">
+    <value>Can not delete this ref communication item type, it is being used for communication item/ref communication item</value>
+  </data>
+  <data name="CommunicationTypeIsBeingUsedInCommunicationHeader" xml:space="preserve">
+    <value>Can not delete this communication type, it is being used for communication header</value>
+  </data>
+  <data name="CannotDeleteClosedStatus" xml:space="preserve">
+    <value>Can not delete "Closed" status type.</value>
+  </data>
+  <data name="StatusInUse" xml:space="preserve">
+    <value>Can not delete the status, it is being used for {0}.</value>
+  </data>
+  <data name="CommunicationTypeIsBeingUsedInAgency" xml:space="preserve">
+    <value>Can not delete this communication type, it is being used for agency</value>
+  </data>
+  <data name="UrgencyIsBeingUsed" xml:space="preserve">
+    <value>Can not delete this urgency, it is being used for ref communication items</value>
+  </data>
+  <data name="ResponsibilityIsBeingUsed" xml:space="preserve">
+    <value>Can not delete this urgency, it is being used for communication item/ ref communication item type</value>
+  </data>
+  <data name="CommissionTypeIsBeingUsed" xml:space="preserve">
+    <value>Can not delete this commission type, it is being used for employee commissions</value>
+  </data>
+  <data name="EmployeeIsBeingUsedCommission" xml:space="preserve">
+    <value>Can not delete this employee because it is being used for commission</value>
+  </data>
+  <data name="PropertyIsBeingUsedCommission" xml:space="preserve">
+    <value>Can not delete this property because it is being used for commission</value>
+  </data>
+  <data name="PropertyGroupIsBeingUsed" xml:space="preserve">
+    <value>Can not delete this property group, it is being used for property</value>
+  </data>
+  <data name="OwnerIsBeingUsedForPropertyOwner" xml:space="preserve">
+    <value>Can not delete this owner, it is being used for property owners</value>
+  </data>
+  <data name="PropertyIsBeingUsedForPropertyOwner" xml:space="preserve">
+    <value>Can not delete this property because it is being used for property owners</value>
+  </data>
+  <data name="TradeIsBeingUsed" xml:space="preserve">
+    <value>Can not delete this trade, it is being used for authorities maintenance or creditor</value>
+  </data>
+  <data name="ComplianceCategoryIsBeingUsed" xml:space="preserve">
+    <value>Can not delete this compliance category, it is being used for properties compliance categories</value>
+  </data>
+  <data name="CreditorIsBeingUsed" xml:space="preserve">
+    <value>Can not delete this creditor, it is being used for properties compliance inspections</value>
+  </data>
+  <data name="CallTypeIsBeingUsed" xml:space="preserve">
+    <value>Can not delete this call type, it is being used for communication</value>
+  </data>
+  <data name="OwnerIsBeingUsedForCommHeader" xml:space="preserve">
+    <value>Can not delete this owner, it is being used for communication header</value>
+  </data>
+  <data name="PropertyIsBeingUsedCommHeader" xml:space="preserve">
+    <value>Can not delete this property because it is being used for communication</value>
+  </data>
+  <data name="TenantIsBeingUsedForCommHeader" xml:space="preserve">
+    <value>Can not delete this tenant, it is being used for communication header</value>
+  </data>
+  <data name="UserIsBeingUsedForCommHeader" xml:space="preserve">
+    <value>Can not delete this user, it is being used for communication header</value>
+  </data>
+  <data name="AssignPropertyManagerToTheProperty" xml:space="preserve">
+    <value>Please assign Property Manager to the Property</value>
+  </data>
+  <data name="AssignSalesPersonToTheProperty" xml:space="preserve">
+    <value>Please assign Sales Person to the Property</value>
+  </data>
+  <data name="HolidayDateOverlapped" xml:space="preserve">
+    <value>There is already another Holiday with the same date range</value>
+  </data>
+  <data name="TaskTypeIsBeingUsed" xml:space="preserve">
+    <value>Can not delete this task type, it is being used for employee</value>
+  </data>
+  <data name="EndDateLessThanStartDate" xml:space="preserve">
+    <value>The End date need to less than Start date</value>
+  </data>
+  <data name="AttributeIsBeingUsedForQuestion" xml:space="preserve">
+    <value>Can not delete this attribute, it is being used for questions</value>
+  </data>
+  <data name="DisclosureSMSMissing" xml:space="preserve">
+    <value>The Disclosure Questionnaire has not been set up for this Property Type</value>
+  </data>
+  <data name="AllDisclosureInvitationAreAlreadySent" xml:space="preserve">
+    <value>The disclosure invitation has already sent to all owner parties</value>
+  </data>
+  <data name="TheQuestionnaireIsBeingUsedForComplaince" xml:space="preserve">
+    <value>Can not delete this questionnaire, it is being used for compliance</value>
+  </data>
+  <data name="YouNeedToAcceptTheLeaseOfferFirst" xml:space="preserve">
+    <value>You need to accept the lease offer first</value>
+  </data>
+  <data name="PleaseAddAtLeastOneOwnerParty" xml:space="preserve">
+    <value>Please add at least one owner party</value>
+  </data>
+  <data name="RequireAgencySetup" xml:space="preserve">
+    <value>Please set up the {0} in Agency Setup before continuing</value>
+  </data>
+  <data name="OwnerMobileRequired" xml:space="preserve">
+    <value>ERROR: Landlord disclosure cannot be sent as the Owner has no Mobile Phone recorded.</value>
+  </data>
+  <data name="SendRentReviewFailed" xml:space="preserve">
+    <value>Can not send emails due to missing owner/email subject/email body on the selected rent reviews</value>
+  </data>
+  <data name="PropertyCurrentOwnerIsBeingUsed" xml:space="preserve">
+    <value>Can not delete this property owner, it is being used for current owner</value>
+  </data>
+  <data name="PropertyOwnerIsBeingUsed" xml:space="preserve">
+    <value>Can not delete this property owner, it is being used for authorities</value>
+  </data>
+  <data name="LeaseNotCompletedDateOverlapped" xml:space="preserve">
+    <value>There is already an existing Lease that has not been completed with dates that overlap this Lease.</value>
+  </data>
+  <data name="AuthorityNotCompletedDateOverlapped" xml:space="preserve">
+    <value>There is already an existing Authority that has not been completed with dates that overlap this Authority.</value>
+  </data>
+  <data name="PropertyCurrentOwnerRequired" xml:space="preserve">
+    <value>Please add the Owner details before creating {0}</value>
+  </data>
+  <data name="APropertyCanOnlyHave1Board" xml:space="preserve">
+    <value>A Property can only have 1 Board of the same Type linked to a Vacancy</value>
+  </data>
+  <data name="ReasonIsBeingUsed" xml:space="preserve">
+    <value>Can not delete this reason because it is being used for properties</value>
+  </data>
+  <data name="CompetitorIsBeingUsed" xml:space="preserve">
+    <value>Can not delete this competitor because it is being used for properties</value>
+  </data>
+  <data name="CommIsBeingUsedForWorkOrder" xml:space="preserve">
+    <value>Can not delete this communication, it is being used for work orders</value>
+  </data>
+</root>

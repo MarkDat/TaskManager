@@ -13,3 +13,15 @@ export class LoginUserResponse{
 		Object.assign(this, init);
   }
 }
+
+export class GetUserResponse{
+  id: number;
+  userName: string;
+  firstName: string;
+  lastName: string;
+  image:  string;
+  
+  public constructor(init?: Partial<GetUserResponse>) {
+		Object.assign(this, init);
+  }
+}

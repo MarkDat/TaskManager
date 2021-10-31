@@ -14,5 +14,25 @@ namespace TM.API.Services
         }
 
         protected internal IUnitOfWork UnitOfWork { get; set; }
-    }
+		protected async Task<T> ExecuteTransaction<T>(Func<Task<T>> action)
+		{
+			T result = default;
+
+				try
+				{
+					await UnitOfWork.BeginTransaction();
+
+					result = await action.Invoke();
+
+					await UnitOfWork.CommitTransaction();
+				}
+				catch
+				{
+					await UnitOfWork.RollbackTransaction();
+					throw;
+				}
+
+			return result;
+		}
+	}
 }
