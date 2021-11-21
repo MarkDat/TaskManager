@@ -52,7 +52,7 @@ namespace TM.API.Mappings
 
         public void CreateProjectMapping()
         {
-            CreateMap<Project, GetProjectResponse>();
+            CreateMap<Project, GetProjectResponse>().ReverseMap();
         }
         public void CreateUserMapping()
         {

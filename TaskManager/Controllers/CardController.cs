@@ -15,7 +15,7 @@ using TM.Domain.Shared;
 namespace TM.API.Controllers
 {
     [Authorize]
-    [Route("api/[controller]")]
+    [Route("api/card")]
     [ApiController]
     public class CardController : BaseController
     {
@@ -98,12 +98,12 @@ namespace TM.API.Controllers
         /// </summary>
         /// <param name="request">cardId, phaseId</param>
         /// <returns>bool</returns>
-        [HttpPut("order")]
+        [HttpPut("{cardId:int}/phase/{phaseId:int}/move")]
         [ProducesResponseType(typeof(IActionResult), StatusCodes.Status200OK)]
         [ProducesResponseType(typeof(IActionResult), StatusCodes.Status400BadRequest)]
-        public async Task<bool> OrderCard([FromBody] UpdateCardRequest request)
+        public async Task<bool> OrderCard([FromRoute] int cardId, [FromRoute] int phaseId)
         {
-            var isUpdate = await _service.OrderCard(request,
+            var isUpdate = await _service.OrderCard(cardId, phaseId,
                         CreateAddCardHistoryRequest(HistoryActionType.Move));
 
             return isUpdate;
@@ -125,5 +125,6 @@ namespace TM.API.Controllers
 
             return isUpdate;
         }
+
     }
 }

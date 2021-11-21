@@ -82,6 +82,16 @@ namespace TM.API.Services.Projects
             };
         }
 
+        public async Task<GetProjectResponse> GetOne(int projectId,int userId)
+        {
+            return await ExecuteTransaction(async () => {
+
+                var project = await UnitOfWork.Repository<Project>().FindAsync(projectId);
+
+                return _mapper.Map<GetProjectResponse>(project);
+            });
+        }
+
         public async Task<IEnumerable<GetUserResponse>> AddUserToProject(AddProjectMemberRequest request)
         {
             IEnumerable<GetUserResponse> userResponses = null;

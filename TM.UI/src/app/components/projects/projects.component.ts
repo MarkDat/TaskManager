@@ -1,11 +1,10 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { Router } from '@angular/router';
 import { DxPopupComponent } from 'devextreme-angular';
-import DataSource from 'devextreme/data/data_source';
 import { finalize } from 'rxjs/operators';
-import { AddProjectRequest, GetProjectResponse } from 'src/app/models/project.class';
-import { AppNotify } from '../../common/AppNotify.class';
-import { ProjectService } from '../../services/project.service';
+import { AddProjectRequest, GetProjectResponse } from '@app/models';
+import { AppNotify } from '@app/common';
+import { ProjectService } from '@app/services';
 
 @Component({
   selector: 'app-projects',

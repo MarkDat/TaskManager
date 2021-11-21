@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using GMPMS.Entities.Resources;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
@@ -25,6 +26,7 @@ using TM.Domain.Entities.ToDos;
 using TM.Domain.Entities.Users;
 using TM.Domain.Interfaces;
 using TM.Domain.Shared;
+using TM.Domain.Utilities;
 
 namespace TM.API.Services.Cards
 {
@@ -50,14 +52,13 @@ namespace TM.API.Services.Cards
 
         public async Task<AddCardResponse> Add(AddCardRequest request, AddCardHistoryRequest history)
         {
-            var newCard = new Card(request.Name);
-            try
+            return await ExecuteTransaction(async () =>
             {
-                await UnitOfWork.BeginTransaction();
+                var newCard = new Card(request.Name);
 
                 var project = await UnitOfWork.Repository<Project>().FindAsync(request.ProjectId);
                 if (project == null)
-                    throw new KeyNotFoundException();
+                    throw new HttpException(string.Format(Messages.RecordNotFound, "project"));
 
                 newCard.AddCardToProject(project);
                 newCard.DefaultPhaseForCard();
@@ -66,15 +67,9 @@ namespace TM.API.Services.Cards
                 newCard.AddHistory(ConvertToCardHistory(history, writeLog));
 
                 await UnitOfWork.Repository<Card>().InsertAsync(newCard);
-                await UnitOfWork.CommitTransaction();
-            }
-            catch (Exception)
-            {
-                await UnitOfWork.RollbackTransaction();
-                throw;
-            }
 
-            return _mapper.Map<AddCardResponse>(newCard);
+                return _mapper.Map<AddCardResponse>(newCard);
+            });
         }
 
         public async Task<bool> UpdateProperty(
@@ -125,18 +120,16 @@ namespace TM.API.Services.Cards
             return true;
         }
 
-        public async Task<bool> OrderCard(UpdateCardRequest request, AddCardHistoryRequest history)
+        public async Task<bool> OrderCard(int cardIdCurrent, int phaseIdMove, AddCardHistoryRequest history)
         {
-            try
-            {
-                await UnitOfWork.BeginTransaction();
+            return await ExecuteTransaction(async ()=> {
 
-                var movePhase = await UnitOfWork.Repository<Phase>().FindAsync(request.PhaseId);
-                var card = await _cardRepository.GetCardPhase((int)request.CardId);
+                var movePhase = await UnitOfWork.Repository<Phase>().FindAsync(phaseIdMove);
+                var card = await _cardRepository.GetCardPhase((int)cardIdCurrent);
                 var cardMovement = card.CardMovements?.FirstOrDefault();
 
                 if (cardMovement == null || movePhase == null)
-                    throw new KeyNotFoundException();
+                    throw new HttpException(string.Format(Messages.RecordNotFound, "card movement and move phase"));
 
                 //get id and name to support write log history
                 var cardId = cardMovement.Card.Id;
@@ -150,22 +143,13 @@ namespace TM.API.Services.Cards
                     card.AddNewMovement(movePhase);
                 }
                 else
-                {
-                    await UnitOfWork.RollbackTransaction();
-                    return false;
-                }
+                    throw new HttpException("Can not move !");
 
                 string writeLog = $"card from phase {currentPhaseName} to phase {movePhaseName}";
                 card.AddHistory(ConvertToCardHistory(history, writeLog));
-                await UnitOfWork.CommitTransaction();
-            }
-            catch (Exception)
-            {
-                await UnitOfWork.RollbackTransaction();
-                throw;
-            }
 
-            return true;
+                return true;
+            });
         }
 
         public async Task<BasicUserResponse> AssignCard(AddCardAssignRequest request, AddCardHistoryRequest history)
@@ -277,7 +261,7 @@ namespace TM.API.Services.Cards
                 card.AddHistory(ConvertToCardHistory(history, writeLog));
 
                 await UnitOfWork.CommitTransaction();
-                
+
                 todoResponse = _mapper.Map<AddTodoResponse>(temp);
             }
             catch (Exception)

@@ -24,6 +24,7 @@ namespace TM.Domain.Entities.Phases
         [StringLength(50)]
         public string Name { get; set; }
         public int? AcceptMoveId { get; set; }
+        public string Code { get; set; }
 
         [InverseProperty(nameof(CardMovement.Phase))]
         public virtual ICollection<CardMovement> CardMovements { get; set; }

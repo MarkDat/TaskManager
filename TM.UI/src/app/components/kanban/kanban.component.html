@@ -2,7 +2,7 @@
 <div class="header">
   <div class="title">
     <dx-button icon="fas fa-tasks" type="default"></dx-button>
-    <div class="title-name"><span>Quy trình tán gái</span></div>
+    <div class="title-name"><span>{{project.name}}</span></div>
   </div>
   <div class="avatars">
     <span class="avatar">
@@ -28,7 +28,7 @@
           <div class="list" *ngFor="let list of lists; let listIndex = index">
               <div class="list-title dx-theme-text-color">
                 <span class="dx-icon-square" [style.width]="30" [style.color]="statuses[listIndex]['color']"></span>
-                {{statuses[listIndex]['title']}} <span class="badge">{{list.length}}</span>
+                {{statuses[listIndex]['title']}} <span class="badge">{{list.cards.length}}</span>
               </div>
               <dx-button (onClick)="onClickAddNewCard()" class="add-card" icon="add" text="Thêm công việc" *ngIf="listIndex==0">
               </dx-button>
@@ -40,20 +40,21 @@
                   <dx-sortable
                       class="sortable-cards"
                       group="cardsGroup"
-                      [data]="list"
+                      [data]="list.cards"
                       (onDragStart)="onTaskDragStart($event)"
-                      (onReorder)="onTaskDrop($event)"
-                      (onAdd)="onTaskDrop($event)"
+                      (onReorder)="onListReorder($event)"
+                      (onAdd)="onTaskDrop($event, statuses[listIndex]['phaseId'])"
                       >
                       <div class="card dx-card dx-theme-text-color dx-theme-background-color" 
-                        style="width: 220px; cursor: unset;"
-                        (click)="onCardClick(task)"
+                        style=" cursor: unset;"
+                        (click)="onCardClick(card)"
                         data-toggle="modal" data-target="#myModal2"
-                        *ngFor="let task of list">
-                          <div class="card-name">{{task.Task_ID}}. {{task.Task_Subject}}</div>
+                        *ngFor="let card of list.cards">
+                          <div class="card-name">{{card.id}}. {{card.name}}</div>
                           <div class="type">
                             <dx-button
-                            (click)="onClickPriority();$event.stopPropagation()"
+                            (click)="onClickPriority();
+                            $event.stopPropagation()"
                             class="priority"
                             text="Trung bình"
                             icon="fas fa-flag"
@@ -63,10 +64,8 @@
                             >
                             </dx-button>
 
-                            <div class="tags">
-                              <i class="fas fa-tag"></i>
-                              <i class="fas fa-tag"></i>
-                              <i class="fas fa-tag"></i>
+                            <div class="tags" *ngFor="let item of (card.tags || [])">
+                              <i class="fas fa-tag" style="color: '{{item.color}}';"></i>
                             </div>
                           </div>
                           <div class="card-basic-info">
@@ -74,20 +73,23 @@
                                 <div class="card-assign icon border-dot">
                                   <i class="far fa-user"></i>
                                 </div>
+
                                 <div class="card-due-date icon border-dot">
                                   <i class="far fa-calendar-minus"></i>
                                 </div>
                                 <!-- <div class="expired">Hết hạn</div> -->
                               </div>
                           </div>
-                          <!-- Todos -->
-                          <hr>
-                          <div class="todo-temp" style="display: flex;">
-                            <circle-progress [percent]="90"  [space]="-10" [radius]="5" [outerStrokeWidth]="1"
-                            [innerStrokeWidth]="0" [showImage]="true" [outerStrokeColor]="'#4882c2'" [innerStrokeColor]="'#e7e8ea'" [animation]="true"
-                            [animationDuration]="50"></circle-progress>
-                            <span>Todo 1</span>
-                          </div>
+                          <!-- Todos  -->
+                          <ng-container *ngIf="card.todos.length != 0">
+                              <hr>
+                              <div class="todo-temp" style="display: flex;">
+                                <circle-progress [percent]="90"  [space]="-10" [radius]="5" [outerStrokeWidth]="1"
+                                [innerStrokeWidth]="0" [showImage]="true" [outerStrokeColor]="'#4882c2'" [innerStrokeColor]="'#e7e8ea'" [animation]="true"
+                                [animationDuration]="50"></circle-progress>
+                                <span>{{card.todos[0]}}</span>
+                              </div>
+                          </ng-container>
                       </div>
                   </dx-sortable>
               </dx-scroll-view>
@@ -97,3 +99,25 @@
 </div>
 <app-modal></app-modal>
 </div>
+
+
+<dx-popup #popup [width]="300" [height]="200" [showTitle]="true" title="Create new card" [dragEnabled]="false"
+	[closeOnOutsideClick]="true" [showCloseButton]="false" container=".dx-viewport" [(visible)]="popupVisible">
+	<div *dxTemplate="let data of 'content'">
+		<p>
+			Name Card:
+			<dx-text-box [(value)]="cardAdd.name" [placeholder]="'Enter new card name'"></dx-text-box>
+		</p><br>
+		<div class="button-popup">
+			<dx-button [text]="'Create'" [icon]="'check'" [type]="'success'" (onClick)="onClickCreateCard()">
+			</dx-button>
+			<dx-button [text]="'Close'" (onClick)="onActionPopup()">
+			</dx-button>
+		</div>
+	</div>
+</dx-popup>
+
+<dx-load-panel 
+  [shading]="true" 
+  [(visible)]="isLoading"
+  shadingColor="rgba(0,0,0,0.4)"></dx-load-panel>

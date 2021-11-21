@@ -1,8 +1,3 @@
-.button-popup{
-    display: flex;
-    justify-content: space-between;
-}
-
 #gridContainer i{
     cursor: pointer;
     color: blue;

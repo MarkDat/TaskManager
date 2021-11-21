@@ -7,3 +7,8 @@ hr{
 .mb-5{
     margin-bottom: 5px;
 }
+
+.button-popup{
+    display: flex;
+    justify-content: space-between;
+}

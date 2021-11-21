@@ -1,7 +1,7 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { finalize } from 'rxjs/operators';
-import { LoginUserRequest, LoginUserResponse } from '../../../models/user.class';
-import { AuthService } from '../../../services/auth.service';
+import { LoginUserRequest, LoginUserResponse } from '@app/models';
+import { AuthService } from '@app/services';
 import { Router } from '@angular/router';
 
 @Component({
@@ -33,7 +33,9 @@ export class LoginComponent implements OnInit {
       this.isLoading = false;
     })).subscribe(data => {
       sessionStorage.setItem('tkn', data.message);
-      this.router.navigate(['projects']).then();
+      this.router.navigate(['projects']).then(()=>{
+          window.location.reload();
+      });
     }, err => {
       this.userRequest.userName = '';
       this.userRequest.password = '';

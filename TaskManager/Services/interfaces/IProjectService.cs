@@ -14,6 +14,8 @@ namespace TM.API.Services.interfaces
         public Task<IEnumerable<GetProjectResponse>> GetProjectsByCurrentUser(int userId);
         public Task<AddProjectResponse> AddNewProject(AddProjectRequest request);
         public Task<IEnumerable<GetUserResponse>> AddUserToProject(AddProjectMemberRequest request);
-        
+        public Task<GetProjectResponse> GetOne(int projectId, int userId);
+
+
     }
 }
