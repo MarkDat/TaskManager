@@ -1,5 +1,4 @@
 ﻿using AutoMapper;
-using GMPMS.Entities.Resources;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
@@ -17,6 +16,7 @@ using TM.Domain.Entities.ProjectPhases;
 using TM.Domain.Entities.Projects;
 using TM.Domain.Entities.Users;
 using TM.Domain.Interfaces;
+using TM.Domain.Resources;
 using TM.Domain.Shared;
 using TM.Domain.Utilities;
 
@@ -52,41 +52,31 @@ namespace TM.API.Services.Projects
 
         public async Task<AddProjectResponse> AddNewProject(AddProjectRequest request)
         {
-            var newProject = new Project(request.Name);
+            return await ExecuteTransaction(async () => {
 
-            try
-            {
-                await UnitOfWork.BeginTransaction();
-
-                var user = await UnitOfWork.Repository<User>().FindAsync(request.UserId);
+                var newProject = new Project(request.Name);
+                var user = await Repository<User>().FindAsync(request.UserId);
                 if (user == null)
                     throw new HttpException(string.Format(Messages.RecordNotFound, "user"));
 
-                await UnitOfWork.Repository<Project>().InsertAsync(newProject, true);
+                await Repository<Project>().InsertAsync(newProject, true);
 
                 newProject.AddProjectMember(user);
                 newProject.AddBasicPhases();
 
-                await UnitOfWork.CommitTransaction();
-            }
-            catch (Exception)
-            {
-                await UnitOfWork.RollbackTransaction();
-                throw;
-            }
-
-            return new AddProjectResponse()
-            {
-                Id = newProject.Id,
-                Name = newProject.Name
-            };
+                return new AddProjectResponse()
+                {
+                    Id = newProject.Id,
+                    Name = newProject.Name
+                };
+            });
         }
 
         public async Task<GetProjectResponse> GetOne(int projectId,int userId)
         {
             return await ExecuteTransaction(async () => {
 
-                var project = await UnitOfWork.Repository<Project>().FindAsync(projectId);
+                var project = await Repository<Project>().FindAsync(projectId);
 
                 return _mapper.Map<GetProjectResponse>(project);
             });
@@ -94,15 +84,14 @@ namespace TM.API.Services.Projects
 
         public async Task<IEnumerable<GetUserResponse>> AddUserToProject(AddProjectMemberRequest request)
         {
-            IEnumerable<GetUserResponse> userResponses = null;
-            try
-            {
-                await UnitOfWork.BeginTransaction();
+            return await ExecuteTransaction(async () => {
 
-                var userRepos = UnitOfWork.Repository<User>();
-                var projectMemberRepos = UnitOfWork.Repository<ProjectMember>();
+                IEnumerable<GetUserResponse> userResponses = null;
 
-                var project = await UnitOfWork.Repository<Project>().FindAsync(request.ProjectId);
+                var userRepos = Repository<User>();
+                 var projectMemberRepos = Repository<ProjectMember>();
+
+                var project = await Repository<Project>().FindAsync(request.ProjectId);
                 var user = await userRepos.FindAsync(request.UserId);
 
                 if (user == null || project == null)
@@ -114,24 +103,14 @@ namespace TM.API.Services.Projects
                     project.AddProjectMember(user);
                 else
                 {
-                    await UnitOfWork.RollbackTransaction();
                     return new List<GetUserResponse>();
                 }
 
-
-                await UnitOfWork.CommitTransaction();
-
                 var usersInProject = await _userRepository.UsersInProjectAsync(project.Id);
-
                 userResponses = _mapper.Map<IEnumerable<GetUserResponse>>(usersInProject);
-            }
-            catch (Exception)
-            {
-                await UnitOfWork.RollbackTransaction();
-                throw;
-            }
 
-            return userResponses;
+                return userResponses;
+            });
         }
 
 

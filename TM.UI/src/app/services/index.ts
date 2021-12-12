@@ -1,6 +1,0 @@
-export * from '../services/test.service'
-export * from '../services/auth.service'
-export * from '../services/project.service'
-export * from '../services/employee.service'
-export * from '../services/base.service'
-export * from '../services/card.service'

@@ -14,6 +14,17 @@ namespace TM.Infrastructure.Data.Repositories
         {
         }
 
+        public Task<Card> GetCardDetails(int cardId, int projectId)
+        {
+            return Entities.Include(_ => _.Priority)
+                           .Include(_ => _.CardHistories)
+                           .Include(_ => _.CardTags).ThenInclude(_ => _.Tag)
+                           .Include(_ => _.CardAssigns).ThenInclude(_ => _.User)
+                           .Include(_ => _.Todos).ThenInclude(_ => _.InverseParent)
+                           
+                           .FirstOrDefaultAsync(_ => _.Id == cardId && _.ProjectId == projectId);
+        }
+
         public Task<Card> GetCardPhase(int cardId)
         {
             return Entities.Include(_ => _.CardMovements.Where(_ => (bool)_.IsCurrent))
@@ -25,6 +36,15 @@ namespace TM.Infrastructure.Data.Repositories
             return Entities.Include(_ => _.Todos)
                            .ThenInclude(_ => _.InverseParent)
                            .FirstOrDefaultAsync(_ => _.Id == cardId);
+        }
+
+        public async Task<TDataType> GetCardField<TDataType>(int cardId, string columnName)
+        {
+            return await Entities.Where(_ => _.Id == cardId)
+                .Select(_ => (TDataType)_.GetType()
+                                        .GetProperty(columnName)
+                                        .GetValue(_, null)
+                ).FirstOrDefaultAsync();
         }
     }
 }

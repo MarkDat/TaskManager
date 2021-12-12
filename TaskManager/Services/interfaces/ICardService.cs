@@ -15,6 +15,7 @@ namespace TM.API.Services.interfaces
     public interface ICardService
     {
         public Task<AddCardResponse> Add(AddCardRequest request, AddCardHistoryRequest history);
+        public Task<GetCardResponse> Get(GetCardRequest request);
         public Task<bool> UpdateProperty(string propertyName
             , UpdateCardRequest request
             , AddCardHistoryRequest history);
@@ -22,5 +23,6 @@ namespace TM.API.Services.interfaces
         public Task<BasicUserResponse> AssignCard(AddCardAssignRequest request, AddCardHistoryRequest history);
         public Task<GetTagResponse> AddTag(CardTagRequest request, AddCardHistoryRequest history);
         public Task<AddTodoResponse> AddTodo(AddTodoRequest request, AddCardHistoryRequest history);
+        public Task<bool> UpdateTodo(TodoUpdateModel request, AddCardHistoryRequest addCardHistoryRequest);
     }
 }

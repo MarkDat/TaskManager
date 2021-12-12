@@ -8,5 +8,6 @@ namespace TM.API.DTOs.CardHistories
     public class GetCardHistoryResponse
     {
         public string Content { get; set; }
+        public DateTime? CreatedDate { get; set; }
     }
 }

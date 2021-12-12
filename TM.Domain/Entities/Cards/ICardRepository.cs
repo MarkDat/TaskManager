@@ -7,5 +7,6 @@ namespace TM.Domain.Entities.Cards
     {
         public Task<Card> GetCardPhase(int cardId);
         public Task<Card> GetCardTodo(int cardId);
+        public Task<Card> GetCardDetails(int cardId, int projectId);
     }
 }

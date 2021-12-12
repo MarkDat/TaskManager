@@ -21,6 +21,7 @@ using TM.Domain.Entities.Phases;
 using TM.Domain.Entities.ProjectMembers;
 using TM.Domain.Entities.ProjectPhases;
 using TM.Domain.Entities.Projects;
+using TM.Domain.Entities.ToDos;
 using TM.Domain.Entities.Users;
 using TM.Domain.Interfaces;
 using TM.Domain.Models;
@@ -107,6 +108,7 @@ namespace TaskManager.Extensions
                 .AddScoped<ICardAssignRepository, CardAssignRepository>()
                 .AddScoped<ICardTagRepository, CardTagRepository>()
                 .AddScoped<IMemberProjectRepository, ProjectMemberRepository>()
+                .AddScoped<IToDoRepository, TodoRepository>()
                 .AddScoped<ICardRepository, CardRepository>();
 
         }

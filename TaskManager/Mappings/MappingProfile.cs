@@ -67,7 +67,8 @@ namespace TM.API.Mappings
 
         public void CreateCardMapping()
         {
-            CreateMap<Card, AddCardResponse>();
+            CreateMap<Card, AddCardResponse>().ReverseMap();
+            CreateMap<Card, GetCardRequest>().ReverseMap();
             CreateMap<Card, GetCardResponse>()
                 .ForMember(d => d.Tags,
                     otp => otp.MapFrom(s => s.CardTags.Select(_ => _.Tag))
@@ -75,7 +76,7 @@ namespace TM.API.Mappings
                 .ForMember(d => d.AssignUser,
                     otp => otp.MapFrom(s => s.CardAssigns.Where(_ => (bool)_.IsAssigned)
                                                         .Select(_ => _.User).FirstOrDefault())
-                );
+                ).ReverseMap();
         }
 
         public void CreateTagMapping()
@@ -85,10 +86,20 @@ namespace TM.API.Mappings
 
         public void CreateTodoMapping()
         {
-            CreateMap<Todo, GetTodoResponse>().ForMember(d => d.ChildTodos,
+            CreateMap<Todo, GetTodoResponse>().ForMember(d => d.Items,
                     otp => otp.MapFrom(s => s.InverseParent)
-                );
-            CreateMap<Todo, AddTodoResponse>();
+                ).ReverseMap();
+
+            CreateMap<Todo, TodoModel>().ForMember(d => d.Items,
+                    otp => otp.MapFrom(s => s.InverseParent)
+                ).ReverseMap();
+
+            CreateMap<Todo, TodoUpdateModel>()
+                .ForMember(d => d.Items,
+                    otp => otp.MapFrom(s => s.InverseParent)
+                ).ReverseMap();
+            
+            CreateMap<Todo, AddTodoResponse>().ReverseMap();
     }
 
         public void CreatePriorityMapping()

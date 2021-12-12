@@ -7,7 +7,7 @@ namespace TM.API.DTOs.Cards
 {
     public class GetCardRequest
     {
-        public int IdProject { get; set; }
-        public string Name { get; set; }
+        public int ProjectId { get; set; }
+        public int CardId { get; set; }
     }
 }

@@ -46,6 +46,21 @@ namespace TM.API.Controllers
         }
 
         /// <summary>
+        ///  Get card details
+        /// </summary>
+        /// <param name="request">projectId, cardId</param>
+        /// <returns>card</returns>
+        [HttpPost("details")]
+        [ProducesResponseType(typeof(IActionResult), StatusCodes.Status200OK)]
+        [ProducesResponseType(typeof(IActionResult), StatusCodes.Status400BadRequest)]
+        public async Task<GetCardResponse> Get([FromBody] GetCardRequest request)
+        {
+            var card = await _service.Get(request);
+
+            return card;
+        }
+
+        /// <summary>
         /// Assign card for user
         /// </summary>
         /// <param name="request">cardId, userId</param>
@@ -122,6 +137,22 @@ namespace TM.API.Controllers
         {
             var isUpdate = await _service.UpdateProperty(propertyName, request,
                                  CreateAddCardHistoryRequest(HistoryActionType.Updated));
+
+            return isUpdate;
+        }
+
+        /// <summary>
+        ///  Update todo
+        /// </summary>
+        /// <param name="request">todo</param>
+        /// <returns>bool</returns>
+        [HttpPut("todo")]
+        [ProducesResponseType(typeof(IActionResult), StatusCodes.Status200OK)]
+        [ProducesResponseType(typeof(IActionResult), StatusCodes.Status400BadRequest)]
+        public async Task<bool> UpdateTodo([FromBody] TodoUpdateModel request)
+        {
+            var isUpdate = await _service.UpdateTodo(request,
+                                 CreateUpdateHistoryRequest(HistoryActionType.Updated));
 
             return isUpdate;
         }

@@ -27,13 +27,22 @@
         "node_modules/jszip/dist/jszip.min.js"
       ],
       "@app/models": [
-				"app/models/index.ts"
+				"app/modules/shared/models/index.ts"
 			],
       "@app/services": [
-				"app/services/index.ts"
+				"app/modules/shared/services/index.ts"
 			],
       "@app/common": [
 				"app/common/index.ts"
+			],
+      "@app/components": [
+				"app/components/index.ts"
+			],
+      "@app/modules/*": [
+				"app/modules/*"
+			],
+      "@app/utilities": [
+				"app/modules/shared/utilities/index.ts"
 			]
     }
   },
@@ -41,6 +50,7 @@
     "enableI18nLegacyMessageIdFormat": false,
     "strictInjectionParameters": true,
     "strictInputAccessModifiers": true,
-    "strictTemplates": true
+    "strictTemplates": true,
+    "fullTemplateTypeCheck": true,
   }
 }

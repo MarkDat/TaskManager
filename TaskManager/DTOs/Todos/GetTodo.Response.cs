@@ -10,6 +10,6 @@ namespace TM.API.DTOs.Todos
         public int? Id { get; set; }
         public string Name { get; set; }
         public bool? IsCheck { get; set; }
-        public virtual IEnumerable<GetTodoResponse> ChildTodos { get; set; }
+        public virtual IEnumerable<GetTodoResponse> Items { get; set; }
     }
 }

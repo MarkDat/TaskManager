@@ -1,0 +1,49 @@
+<div style="font-size: 20px; font-weight: bold; text-align: center;">PROJECTS</div><br>
+<div [style.margin-left]="'25%'">
+	<dx-button icon="plus" (onClick)="onActionPopup()" type="default" [style.margin-bottom.px]="15"
+		[style.margin-top.px]="5">
+	</dx-button>
+	<dx-data-grid id="gridContainer" [width]="500" [dataSource]="projects" keyExpr="id" [showBorders]="true"
+	[showColumnLines]="true"
+	[wordWrapEnabled]="true"
+	[showBorders]="true"
+	[rowAlternationEnabled]="true"
+	(onCellClick)="onCellClick($event)">
+		<dxi-column [width]="40" alignment="center" cellTemplate="actionProperty">
+			<div class="d-flex" *dxTemplate="let cellData of 'actionProperty'">
+				<i class="dx-icon-edit mr-2"></i>
+				<i class="dx-icon-trash" style="color: red;"></i>
+			</div>
+		</dxi-column>
+		<dxi-column dataField="name" dataType="string" [width]="200" caption="Project Name" ></dxi-column>
+		<dxi-column dataField="projectMembers" dataType="string" [width]="200" caption="Project Member" cellTemplate="projectMembers">
+			<div class="" *dxTemplate="let cellData of 'projectMembers'">
+				<div *ngFor="let item of cellData.data.projectMembers">
+						{{item.user.firstName + " " + item.user.lastName + ", "}}
+				</div>
+			</div>
+		</dxi-column>
+	</dx-data-grid>
+</div>
+
+
+
+
+
+<dx-popup #popup [width]="widthPopup" [height]="heightPopup" [showTitle]="true" title="Create new project" [dragEnabled]="false"
+	[closeOnOutsideClick]="true" [showCloseButton]="false" container=".dx-viewport" [(visible)]="popupVisible">
+	<div *dxTemplate="let data of 'content'">
+		<p>
+			Name Project:
+			<dx-text-box [(value)]="newNameProject" [placeholder]="'Enter new project name'"></dx-text-box>
+		</p><br>
+		<div class="button-popup">
+			<dx-button [height]="heightButton" [width]="widthButton" [text]="'Create'" [icon]="'check'" [type]="'success'" (onClick)="onClickCreateProjectPopup()">
+			</dx-button>
+			<dx-button [height]="heightButton" [width]="widthButton" [text]="'Close'" (onClick)="onActionPopup()">
+			</dx-button>
+		</div>
+	</div>
+</dx-popup>
+
+<dx-load-panel [shading]="true" [(visible)]="isLoading" shadingColor="rgba(0,0,0,0.4)"></dx-load-panel>

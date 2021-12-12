@@ -13,7 +13,12 @@ namespace TM.API.Services
             UnitOfWork = unitOfWork;
         }
 
-        protected internal IUnitOfWork UnitOfWork { get; set; }
+		protected IRepository<T> Repository<T>() where T : class
+		{
+			return UnitOfWork.Repository<T>();
+		}
+
+		protected internal IUnitOfWork UnitOfWork { get; set; }
 		protected async Task<T> ExecuteTransaction<T>(Func<Task<T>> action)
 		{
 			T result = default;

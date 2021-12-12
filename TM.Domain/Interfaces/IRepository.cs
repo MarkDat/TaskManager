@@ -20,5 +20,9 @@ namespace TM.Domain.Interfaces
         Task DeleteAsync(int id, bool saveChanges = true);
         Task DeleteAsync(T entity, bool saveChanges = true);
         Task DeleteRangeAsync(IEnumerable<T> entities, bool saveChanges = true);
+        void Update(T entity);
+        Task UpdateAsync(T entity);
+        void UpdateRange(IEnumerable<T> entities);
+        Task UpdateRangeAsync(IEnumerable<T> entities);
     }
 }

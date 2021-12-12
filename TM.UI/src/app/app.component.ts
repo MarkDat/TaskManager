@@ -11,6 +11,6 @@ export class AppComponent {
     if(sessionStorage.getItem('tkn'))
       this.isLogin = true;
     else
-    this.isLogin = false;
+      this.isLogin = false;
   }
 }

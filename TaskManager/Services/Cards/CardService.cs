@@ -1,5 +1,4 @@
 ﻿using AutoMapper;
-using GMPMS.Entities.Resources;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
@@ -25,6 +24,7 @@ using TM.Domain.Entities.Tags;
 using TM.Domain.Entities.ToDos;
 using TM.Domain.Entities.Users;
 using TM.Domain.Interfaces;
+using TM.Domain.Resources;
 using TM.Domain.Shared;
 using TM.Domain.Utilities;
 
@@ -35,19 +35,36 @@ namespace TM.API.Services.Cards
         private readonly IMapper _mapper;
         private readonly ICardAssignRepository _cardAssignRepository;
         private readonly ICardTagRepository _cardTagRepository;
-        private readonly ICardRepository _cardRepository;
-
+        private readonly ICardRepository _cardRepository; 
+        private readonly IToDoRepository _todoRepository;
         public CardService(
             IUnitOfWork unitOfWork
             , IMapper mapper
             , ICardAssignRepository cardAssignRepository
             , ICardTagRepository cardTagRepository
-            , ICardRepository cardRepository) : base(unitOfWork)
+            , ICardRepository cardRepository
+            , IToDoRepository todoRepository) : base(unitOfWork)
         {
             _mapper = mapper;
             _cardAssignRepository = cardAssignRepository;
             _cardTagRepository = cardTagRepository;
             _cardRepository = cardRepository;
+            _todoRepository = todoRepository;
+        }
+
+        public async Task<GetCardResponse> Get(GetCardRequest request) {
+            return await ExecuteTransaction(async () => {
+
+                var project = await Repository<Project>().FindAsync(request.ProjectId);
+                if (project is null)
+                    throw new HttpException(string.Format(Messages.RecordNotFound, "project"));
+
+                var card = await _cardRepository.GetCardDetails(request.CardId, request.ProjectId);
+                if (card is null)
+                    throw new HttpException(string.Format(Messages.RecordNotFound, "card"));
+
+                return _mapper.Map<GetCardResponse>(card);
+            });
         }
 
         public async Task<AddCardResponse> Add(AddCardRequest request, AddCardHistoryRequest history)
@@ -56,7 +73,7 @@ namespace TM.API.Services.Cards
             {
                 var newCard = new Card(request.Name);
 
-                var project = await UnitOfWork.Repository<Project>().FindAsync(request.ProjectId);
+                var project = await Repository<Project>().FindAsync(request.ProjectId);
                 if (project == null)
                     throw new HttpException(string.Format(Messages.RecordNotFound, "project"));
 
@@ -71,58 +88,62 @@ namespace TM.API.Services.Cards
                 return _mapper.Map<AddCardResponse>(newCard);
             });
         }
+        public async Task<bool> UpdateTodo(TodoUpdateModel request, AddCardHistoryRequest history) {
+            return await ExecuteTransaction(async () => {
+
+                var todo = await Repository<Todo>().FindAsync(request.Id);
+                if (todo is null)
+                    throw new KeyNotFoundException();
+
+                _mapper.Map(request,todo);
+
+                return true;
+            });
+        }
 
         public async Task<bool> UpdateProperty(
             string propertyName
             , UpdateCardRequest request
             , AddCardHistoryRequest history)
         {
-            try
-            {
-                await UnitOfWork.BeginTransaction();
+            return await ExecuteTransaction(async () => {
 
-                var card = await UnitOfWork.Repository<Card>().FindAsync(request.CardId);
+                var card = await Repository<Card>().FindAsync(request.CardId);
                 if (card == null)
                     throw new KeyNotFoundException();
 
                 switch (propertyName)
                 {
                     case "name":
-                        card.Name = (string)request.Value ?? card.Name;
+                        card.Name = request.Value ?? card.Name;
                         break;
                     case "duedate":
-                        DateTime? datetime = string.IsNullOrEmpty((string)request.Value)
-                                            ? (DateTime?)null : DateTime.Parse((string)request.Value);
+                        DateTime? datetime = string.IsNullOrEmpty(request.Value)
+                                            ? null : DateTime.Parse(request.Value);
                         card.DueDate = datetime ?? card.DueDate;
                         break;
                     case "description":
-                        card.Description = (string)request.Value ?? card.Description;
+                        card.Description = request.Value ?? card.Description;
                         break;
                     case "priority":
                         if (request.Value == null) break;
-                        card.PriorityId = (int?)(long)request.Value;
+                        card.PriorityId = int.Parse(request.Value);
                         break;
                     default:
-                        await UnitOfWork.RollbackTransaction();
-                        return false;
+                        throw new HttpException(Messages.InvalidVariableName);
                 }
 
                 string writeLog = propertyName;
                 card.AddHistory(ConvertToCardHistory(history, writeLog));
-                await UnitOfWork.CommitTransaction();
-            }
-            catch (Exception)
-            {
-                await UnitOfWork.RollbackTransaction();
-                throw;
-            }
 
-            return true;
+                return true;
+            });
         }
 
         public async Task<bool> OrderCard(int cardIdCurrent, int phaseIdMove, AddCardHistoryRequest history)
         {
-            return await ExecuteTransaction(async ()=> {
+            return await ExecuteTransaction(async () =>
+            {
 
                 var movePhase = await UnitOfWork.Repository<Phase>().FindAsync(phaseIdMove);
                 var card = await _cardRepository.GetCardPhase((int)cardIdCurrent);
@@ -130,6 +151,9 @@ namespace TM.API.Services.Cards
 
                 if (cardMovement == null || movePhase == null)
                     throw new HttpException(string.Format(Messages.RecordNotFound, "card movement and move phase"));
+
+                if(cardMovement.PhaseId == (int)PhaseBasic.Destroy)
+                    throw new HttpException("You can't move");
 
                 //get id and name to support write log history
                 var cardId = cardMovement.Card.Id;
@@ -143,7 +167,25 @@ namespace TM.API.Services.Cards
                     card.AddNewMovement(movePhase);
                 }
                 else
-                    throw new HttpException("Can not move !");
+                    switch (movePhase.AcceptMoveId)
+                    {
+                        case (int)PhaseBasic.Destroy:
+                            throw new HttpException(string.Format(Messages.MoveCardException, PhaseBasic.Destroy.ToValue()));
+
+                        case (int)PhaseBasic.Completed:
+                            throw new HttpException(string.Format(Messages.MoveCardException, PhaseBasic.Completed.ToValue()));
+
+                        case (int)PhaseBasic.Opportunity:
+                            throw new HttpException(string.Format(Messages.MoveCardException, PhaseBasic.Opportunity.ToValue()));
+
+                        case (int)PhaseBasic.Order:
+                            throw new HttpException(string.Format(Messages.MoveCardException, PhaseBasic.Order.ToValue()));
+
+                        case (int)PhaseBasic.Quote:
+                            throw new HttpException(string.Format(Messages.MoveCardException, PhaseBasic.Quote.ToValue()));
+                        default:
+                            throw new HttpException("You can't move !");
+                    }
 
                 string writeLog = $"card from phase {currentPhaseName} to phase {movePhaseName}";
                 card.AddHistory(ConvertToCardHistory(history, writeLog));
