@@ -2,7 +2,7 @@
     <form class="login">
         <strong class="mb-5" style="font-size: 20px;">LOGIN</strong>
         <dx-text-box class="mb-5" [(value)]="userRequest.userName" [disabled]="false" [readOnly]="false"></dx-text-box>
-        <dx-text-box class="mb-5" [(value)]="userRequest.password" [disabled]="false" [readOnly]="false"></dx-text-box>
+        <dx-text-box class="mb-5" mode="password" [(value)]="userRequest.password" [disabled]="false" [readOnly]="false"></dx-text-box>
         <dx-button
         [text]="'Login'"
         [type]="'default'"

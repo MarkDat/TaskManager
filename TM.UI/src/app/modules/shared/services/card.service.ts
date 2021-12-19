@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { Todo, AddCardRequest, AddCardResponse, GetCardRequest, Card, UpdateCardRequest } from '@app/modules/shared/models';
+import { Todo, AddCardRequest, AddCardResponse, GetCardRequest, Card, UpdateCardRequest, History } from '@app/modules/shared/models';
 import { BaseService } from '@app/modules/shared/services';
 import { Observable } from 'rxjs';
 import { API_ENDPOINTS } from './endpoint';
@@ -40,5 +40,9 @@ export class CardService {
 
   getTodos(cardId: number) : Observable<Todo[]>{
     return this.baseService.get(`${this.baseUrl}/${cardId}/todo`);
+  }
+
+  getHistories(cardId: number) : Observable<History[]>{
+    return this.baseService.get(`${this.baseUrl}/${cardId}/history`);
   }
 }

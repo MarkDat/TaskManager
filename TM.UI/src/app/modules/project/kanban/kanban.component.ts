@@ -13,26 +13,26 @@ export class KanbanComponent implements OnInit {
     lists: Phase[] = [];
     statuses: object[] = [
         {
-            title: 'Co hoi',
+            title: 'Cơ hội',
             color: '#8ccbbe',
             code: PHASE_CODE.Opportunity
         },
         {
-            title: 'Bao gia',
+            title: 'Báo giá',
             color: '#c56183',
             code: PHASE_CODE.Quote
         },
         {
-            title: 'Don hang',
+            title: 'Đơn hàng',
             color: '#008891',
             code: PHASE_CODE.Order
         },
         {
-            title: 'Hoan thanh',
+            title: 'Hoàn thành',
             color: '#4cb043',
             code: PHASE_CODE.Completed
         }, {
-            title: 'Huy',
+            title: 'Hủy',
             color: 'red',
             code: PHASE_CODE.Destroy
         }

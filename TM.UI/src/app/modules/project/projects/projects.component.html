@@ -1,4 +1,4 @@
-<div style="font-size: 20px; font-weight: bold; text-align: center;">PROJECTS</div><br>
+<div style="font-size: 20px; font-weight: bold; text-align: center;">CÁC DỰ ÁN</div><br>
 <div [style.margin-left]="'25%'">
 	<dx-button icon="plus" (onClick)="onActionPopup()" type="default" [style.margin-bottom.px]="15"
 		[style.margin-top.px]="5">
@@ -15,8 +15,8 @@
 				<i class="dx-icon-trash" style="color: red;"></i>
 			</div>
 		</dxi-column>
-		<dxi-column dataField="name" dataType="string" [width]="200" caption="Project Name" ></dxi-column>
-		<dxi-column dataField="projectMembers" dataType="string" [width]="200" caption="Project Member" cellTemplate="projectMembers">
+		<dxi-column dataField="name" dataType="string" [width]="200" caption="Tên dự án" ></dxi-column>
+		<dxi-column dataField="projectMembers" dataType="string" [width]="200" caption="Thành viên trong dự án" cellTemplate="projectMembers">
 			<div class="" *dxTemplate="let cellData of 'projectMembers'">
 				{{handleProjectMember(cellData.data.projectMembers)}}
 			</div>
@@ -28,17 +28,17 @@
 
 
 
-<dx-popup #popup [width]="widthPopup" [height]="heightPopup" [showTitle]="true" title="Create new project" [dragEnabled]="false"
+<dx-popup #popup [width]="widthPopup" [height]="heightPopup" [showTitle]="true" title="Tạo dự án" [dragEnabled]="false"
 	[closeOnOutsideClick]="true" [showCloseButton]="false" container=".dx-viewport" [(visible)]="popupVisible">
 	<div *dxTemplate="let data of 'content'">
 		<p>
-			Name Project:
-			<dx-text-box [(value)]="newNameProject" [placeholder]="'Enter new project name'"></dx-text-box>
+			Tên dự án :
+			<dx-text-box [(value)]="newNameProject" [placeholder]="'Nhập tên dự án'"></dx-text-box>
 		</p><br>
 		<div class="button-popup">
-			<dx-button [height]="heightButton" [width]="widthButton" [text]="'Create'" [icon]="'check'" [type]="'success'" (onClick)="onClickCreateProjectPopup()">
+			<dx-button [height]="heightButton" [width]="widthButton" [text]="'Tạo'" [icon]="'check'" [type]="'success'" (onClick)="onClickCreateProjectPopup()">
 			</dx-button>
-			<dx-button [height]="heightButton" [width]="widthButton" [text]="'Close'" (onClick)="onActionPopup()">
+			<dx-button [height]="heightButton" [width]="widthButton" [text]="'Đóng'" (onClick)="onActionPopup()">
 			</dx-button>
 		</div>
 	</div>

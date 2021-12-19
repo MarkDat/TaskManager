@@ -1,9 +1,10 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { ChangeDetectorRef, Component, Input, OnInit } from '@angular/core';
 import { Todo } from '@app/modules/shared/models';
 import { CardService } from '@app/services';
 import { finalize } from 'rxjs/operators';
 import { AppNotify } from '../../utilities';
 import {cloneDeep} from 'lodash';
+import { ModalDetailsComponent } from '@app/modules/project/kanban/modal/modal-details.component';
 
 @Component({
 	selector: 'app-checklist-todo',
@@ -13,17 +14,23 @@ import {cloneDeep} from 'lodash';
 export class ChecklistTodoComponent implements OnInit {
 	@Input() cardId: number = null;
 	@Input() todos: Todo[] = [];
+	@Input() modalComponent: ModalDetailsComponent;
 
 	newTodo: Todo = new Todo({});
 	newSubTodo: Todo = new Todo({});
 	isLoading: boolean = false;
 
 	constructor(
-		private cardService: CardService
-	) { this.loadTodos();}
+		private cardService: CardService,
+		private cdref: ChangeDetectorRef
+	) { }
 
 	ngOnInit(): void {
 		
+	}
+
+	ngAfterContentChecked() {
+		this.cdref.detectChanges();
 	}
 
 	loadTodos(){
@@ -36,15 +43,26 @@ export class ChecklistTodoComponent implements OnInit {
 		});
 	}
 
-	onClickTodo(e, index: number, isParent: boolean = true, todoChild: Todo = null) {
-		if (isParent) {
-			this.todos[index].items.map(subTodo => subTodo.isCheck = e.value);
-			this.updateTodo(this.todos[index]);
-			return;
+	onCheckTodo(todo: Todo){
+		console.log('check Todo');
+		if(!todo.isCheckSubToDo)
+			todo.items?.map(subTodo => subTodo.isCheck = todo.isCheck);
+
+		this.updateTodo(todo);
+		todo.isCheckSubToDo = false;
+	}
+
+	onCheckSubTodo(subTodo: Todo, parentTodo: Todo){
+		console.log('check sub');
+		if(parentTodo.isCheck && subTodo.isCheck == false){
+			parentTodo.isCheckSubToDo = true;
+			parentTodo.isCheck = false;
 		}
 
-		this.todos[index].isCheck = !e.value ? false : this.todos[index].isCheck;
-		this.updateTodo(todoChild);
+		if(!parentTodo.items.some((e) => !e.isCheck))
+			parentTodo.isCheck = true;
+
+		this.updateTodo(subTodo);
 	}
 
 	updateTodo(todo: Todo) {
@@ -66,8 +84,7 @@ export class ChecklistTodoComponent implements OnInit {
 		this.updateTodo(todo);
 	}
 
-	onAddTodo(value, parentId: number = null) {
-		let name = cloneDeep(value);
+	onAddTodo(todo: Todo, parentId: number = null) {
 
 		if (!this.cardId)
 			return;
@@ -75,7 +92,7 @@ export class ChecklistTodoComponent implements OnInit {
 		let newTodo = new Todo({
 			cardId: this.cardId,
 			parentId: parentId ? parentId : null,
-			name: name
+			name: todo.nameNewTodo
 		});
 
 		this.isLoading = true;
@@ -85,16 +102,32 @@ export class ChecklistTodoComponent implements OnInit {
 
 			this.handleAddTodo(parentId, data);
 			AppNotify.success("Added todo");
-
+			todo.nameNewTodo = '';
+			this.modalComponent.loadHistories();
 		});
 	}
 
 	handleAddTodo(parentId: number, todo: Todo) {
+		todo.isCheck = false;
 		if (todo.parentId) {
-			this.todos[parentId].items.push(todo);
+			const indexParent =  this.todos.findIndex(_ => _.id === parentId);
+
+			this.todos[indexParent].items = !this.todos[indexParent].items ? [] : this.todos[indexParent].items;
+			this.todos[indexParent].items.push(todo);
+
+			if(this.todos[indexParent].isCheck){
+				this.todos[indexParent].isCheckSubToDo = true;
+			this.todos[indexParent].isCheck = false;
+			}
+			
+			
 			return;
 		}
 
 		this.todos.push(todo);
+	}
+
+	onShowChild(todo: Todo){
+		todo.isShowChild = !todo.isShowChild;
 	}
 }

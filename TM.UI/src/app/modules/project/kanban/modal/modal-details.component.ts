@@ -53,9 +53,7 @@ export class ModalDetailsComponent implements OnInit {
   }
 
   onDateChange(e) {
-
-    this.card.dueDate = e.value;
-
+    this.card.dueDate = new Date(e.value);
     let cardRequest = new UpdateCardRequest({
       cardId: this.card.id,
       value: this.card.dueDate.toDateString()
@@ -67,11 +65,14 @@ export class ModalDetailsComponent implements OnInit {
       this.isLoading = false
     })).subscribe(data => {
       AppNotify.success("Changed Due Date");
+      this.loadHistories();
       this.reloadKanban();
     });
   }
 
   onClickSaveDesc() {
+    this.card.description = this.card.description.trim();
+
     let cardRequest = new UpdateCardRequest({
       cardId: this.card.id,
       value: this.card.description
@@ -81,6 +82,7 @@ export class ModalDetailsComponent implements OnInit {
       this.isLoading = false
     })).subscribe(data => {
       AppNotify.success("Changed description");
+      this.loadHistories();
     });
   }
 
@@ -108,6 +110,15 @@ export class ModalDetailsComponent implements OnInit {
       str+=`[${this.datepipe.transform(e.createdDate, 'dd/MM/yyyy')}] ${e.content} \n`
     });
     return str;
+  }
+
+  public loadHistories(){
+    this.isLoading = true;
+    this.cardService.getHistories(this.card.id).pipe(finalize(() => {
+      this.isLoading = false
+    })).subscribe(data => {
+          this.card.cardHistories = data;
+    });
   }
   
   treeViewSelectionChanged(e){

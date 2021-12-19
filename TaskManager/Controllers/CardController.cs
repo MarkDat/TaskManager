@@ -5,6 +5,7 @@ using Microsoft.Extensions.Logging;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using TM.API.DTOs.CardAssigns;
+using TM.API.DTOs.CardHistories;
 using TM.API.DTOs.Cards;
 using TM.API.DTOs.CardTags;
 using TM.API.DTOs.Tags;
@@ -122,6 +123,21 @@ namespace TM.API.Controllers
             var todos = await _service.GetTodos(cardId);
 
             return todos;
+        }
+
+        /// <summary>
+        /// Get history
+        /// </summary>
+        /// <param name="request">cardId</param>
+        /// <returns>History</returns>
+        [HttpGet("{cardId:int}/history")]
+        [ProducesResponseType(typeof(IActionResult), StatusCodes.Status200OK)]
+        [ProducesResponseType(typeof(IActionResult), StatusCodes.Status400BadRequest)]
+        public async Task<IList<GetCardHistoryResponse>> GetHistory([FromRoute] int cardId)
+        {
+            var history = await _service.GetHistory(cardId);
+
+            return history;
         }
 
         /// <summary>

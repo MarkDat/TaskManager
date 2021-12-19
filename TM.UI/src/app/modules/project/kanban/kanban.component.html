@@ -72,7 +72,7 @@
 								</div>
 								<!-- Todos  -->
 								<ng-container *ngIf="card.todos.length != 0">
-									<hr>
+									<!-- <hr>
 									<div class="todo-temp" style="display: flex;">
 										<circle-progress [percent]="90" [space]="-10" [radius]="5"
 											[outerStrokeWidth]="1" [innerStrokeWidth]="0" [showImage]="true"
@@ -83,7 +83,7 @@
 												<span *ngIf="card.todos.length > 1">...</span>
 											</div>
 										</span>
-									</div>
+									</div> -->
 								</ng-container>
 							</div>
 						</dx-sortable>
@@ -107,18 +107,18 @@
 </dx-popup>
 
 <!-- POPUP Add New Card -->
-<dx-popup #popup [width]="300" [height]="200" [showTitle]="true" title="Create new card" [dragEnabled]="false"
+<dx-popup #popup [width]="300" [height]="200" [showTitle]="true" title="Tạo card" [dragEnabled]="false"
 	[closeOnOutsideClick]="true" [showCloseButton]="false" container=".dx-viewport" [(visible)]="popupVisible">
 	<div *dxTemplate="let data of 'content'">
 		<p>
-			Name Card:
-			<dx-text-box [(value)]="cardAdd.name" [placeholder]="'Enter new card name'"></dx-text-box>
+			Tên card:
+			<dx-text-box [(value)]="cardAdd.name" [placeholder]="'Nhập tên card'"></dx-text-box>
 		</p><br>
 		<div class="button-popup">
-			<dx-button [height]="heightButton" [width]="widthButton" [text]="'Create'" [icon]="'check'"
+			<dx-button [height]="heightButton" [width]="widthButton" [text]="'Tạo'" [icon]="'check'"
 				[type]="'success'" (onClick)="onClickCreateCard()">
 			</dx-button>
-			<dx-button [height]="heightButton" [width]="widthButton" [text]="'Close'" (onClick)="onActionPopup()">
+			<dx-button [height]="heightButton" [width]="widthButton" [text]="'Đóng'" (onClick)="onActionPopup()">
 			</dx-button>
 		</div>
 	</div>

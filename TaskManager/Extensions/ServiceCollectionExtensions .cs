@@ -14,6 +14,7 @@ using TM.API.Services.Phases;
 using TM.API.Services.Projects;
 using TM.API.Services.Users;
 using TM.Domain.Entities.CardAssigns;
+using TM.Domain.Entities.CardHistories;
 using TM.Domain.Entities.CardMovements;
 using TM.Domain.Entities.Cards;
 using TM.Domain.Entities.CardTags;
@@ -109,6 +110,7 @@ namespace TaskManager.Extensions
                 .AddScoped<ICardTagRepository, CardTagRepository>()
                 .AddScoped<IMemberProjectRepository, ProjectMemberRepository>()
                 .AddScoped<IToDoRepository, TodoRepository>()
+                .AddScoped<ICardHistoryRepository, HistoryRepository>()
                 .AddScoped<ICardRepository, CardRepository>();
 
         }

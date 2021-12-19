@@ -25,5 +25,6 @@ namespace TM.API.Services.interfaces
         public Task<AddTodoResponse> AddTodo(AddTodoRequest request, AddCardHistoryRequest history);
         public Task<IList<TodoModel>> GetTodos(int cardId);
         public Task<bool> UpdateTodo(TodoUpdateModel request, AddCardHistoryRequest addCardHistoryRequest);
+        public Task<IList<GetCardHistoryResponse>> GetHistory(int cardId);
     }
 }

@@ -37,19 +37,22 @@ namespace TM.API.Services.Cards
         private readonly ICardTagRepository _cardTagRepository;
         private readonly ICardRepository _cardRepository;
         private readonly IToDoRepository _todoRepository;
+        private readonly ICardHistoryRepository _cardHistoryRepository;
         public CardService(
             IUnitOfWork unitOfWork
             , IMapper mapper
             , ICardAssignRepository cardAssignRepository
             , ICardTagRepository cardTagRepository
             , ICardRepository cardRepository
-            , IToDoRepository todoRepository) : base(unitOfWork)
+            , IToDoRepository todoRepository
+            , ICardHistoryRepository cardHistoryRepository) : base(unitOfWork)
         {
             _mapper = mapper;
             _cardAssignRepository = cardAssignRepository;
             _cardTagRepository = cardTagRepository;
             _cardRepository = cardRepository;
             _todoRepository = todoRepository;
+            _cardHistoryRepository = cardHistoryRepository;
         }
 
         public async Task<GetCardResponse> Get(GetCardRequest request)
@@ -150,7 +153,7 @@ namespace TM.API.Services.Cards
             return await ExecuteTransaction(async () =>
             {
 
-                var movePhase = await UnitOfWork.Repository<Phase>().FindAsync(phaseIdMove);
+                var movePhase = await Repository<Phase>().FindAsync(phaseIdMove);
                 var card = await _cardRepository.GetCardPhase((int)cardIdCurrent);
                 var cardMovement = card.CardMovements?.FirstOrDefault();
 
@@ -331,6 +334,17 @@ namespace TM.API.Services.Cards
 
         #endregion
 
+        #region History
+        public async Task<IList<GetCardHistoryResponse>> GetHistory(int cardId)
+        {
+            return await ExecuteTransaction(async () => {
+
+                var histories = await _cardHistoryRepository.GetHistories(cardId);
+
+                return _mapper.Map<List<GetCardHistoryResponse>>(histories) ;
+            });
+        }
+        #endregion
 
         private CardHistory ConvertToCardHistory(AddCardHistoryRequest history, string content)
         {
@@ -341,7 +355,6 @@ namespace TM.API.Services.Cards
                 Content = $"{history.UserName} {history.ActionType.ToLower()} {content}"
             };
         }
-
 
     }
 }

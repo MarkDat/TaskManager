@@ -20,3 +20,7 @@ hr{
 .mr-2-p{
     margin-right: 2%;
 }
+
+.pointer-hover:hover(){
+    cursor: pointer;
+}

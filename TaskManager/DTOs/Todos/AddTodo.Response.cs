@@ -9,7 +9,7 @@ namespace TM.API.DTOs.Todos
     {
         public int Id { get; set; }
         public int? CardId { get; set; }
-        public int ParentId { get; set; }
+        public int? ParentId { get; set; }
         public string Name { get; set; }
     }
 }
