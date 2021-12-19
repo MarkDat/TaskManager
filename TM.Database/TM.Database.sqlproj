@@ -63,9 +63,6 @@
     <Folder Include="dbo\Tables\" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="TM.Database.publish.xml" />
-  </ItemGroup>
-  <ItemGroup>
     <Build Include="dbo\Tables\Card.sql" />
     <Build Include="dbo\Tables\CardAssign.sql" />
     <Build Include="dbo\Tables\CardHistory.sql" />
