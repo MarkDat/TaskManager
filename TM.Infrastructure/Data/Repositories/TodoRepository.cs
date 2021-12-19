@@ -18,5 +18,11 @@ namespace TM.Infrastructure.Data.Repositories
         {
             return await Entities.Where(_ => todoNos.Contains(_.Id)).ToListAsync();
         }
+
+        public async Task<IList<Todo>> GetTodos(int cardId)
+        {
+            return await Entities.Include(_ => _.InverseParent)
+                                 .Where(_ => _.CardId == cardId).ToListAsync();
+        }
     }
 }

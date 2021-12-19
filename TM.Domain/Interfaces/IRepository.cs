@@ -24,5 +24,6 @@ namespace TM.Domain.Interfaces
         Task UpdateAsync(T entity);
         void UpdateRange(IEnumerable<T> entities);
         Task UpdateRangeAsync(IEnumerable<T> entities);
+        Task SaveChangesAsync();
     }
 }

@@ -7,5 +7,7 @@ namespace TM.Domain.Entities.ToDos
     public interface IToDoRepository : IRepository<Todo>
     {
         public Task<IEnumerable<Todo>> GetTodos(int[] todoNos);
+
+        public Task<IList<Todo>> GetTodos(int cardId);
     }
 }

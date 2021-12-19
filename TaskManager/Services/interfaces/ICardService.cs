@@ -23,6 +23,7 @@ namespace TM.API.Services.interfaces
         public Task<BasicUserResponse> AssignCard(AddCardAssignRequest request, AddCardHistoryRequest history);
         public Task<GetTagResponse> AddTag(CardTagRequest request, AddCardHistoryRequest history);
         public Task<AddTodoResponse> AddTodo(AddTodoRequest request, AddCardHistoryRequest history);
+        public Task<IList<TodoModel>> GetTodos(int cardId);
         public Task<bool> UpdateTodo(TodoUpdateModel request, AddCardHistoryRequest addCardHistoryRequest);
     }
 }

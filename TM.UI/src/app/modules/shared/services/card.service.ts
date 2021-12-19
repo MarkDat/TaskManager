@@ -30,7 +30,15 @@ export class CardService {
     return this.baseService.put(`${this.baseUrl}/${propertyName}`, cardRequest);
   }
 
-  updateTodo(todos: Todo){
-    return this.baseService.put(`${this.baseUrl}/todo`, todos);
+  updateTodo(todo: Todo){
+    return this.baseService.put(`${this.baseUrl}/todo`, todo);
+  }
+
+  addTodo(todo: Todo) : Observable<Todo>{
+    return this.baseService.post(`${this.baseUrl}/todo`, todo);
+  }
+
+  getTodos(cardId: number) : Observable<Todo[]>{
+    return this.baseService.get(`${this.baseUrl}/${cardId}/todo`);
   }
 }

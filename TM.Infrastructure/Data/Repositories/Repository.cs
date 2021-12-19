@@ -18,6 +18,11 @@ namespace TM.Infrastructure
 			DbContext = dbContext;
 		}
 
+		public async Task SaveChangesAsync()
+		{
+			await DbContext.SaveChangesAsync();
+		}
+
 		public async Task DeleteAsync(int id, bool saveChanges = true)
 		{
 			var entity = await Entities.FindAsync(id);

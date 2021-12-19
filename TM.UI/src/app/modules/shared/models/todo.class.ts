@@ -1,4 +1,4 @@
-export class Todo{
+export class Todo {
     id: number;
     name: string;
     isCheck: boolean;
@@ -9,10 +9,11 @@ export class Todo{
     parentId: number;
     cardId: number;
     items?: Todo[];
-    
-    isEdit: boolean = false;
 
-    public constructor(init? : Partial <Todo>) {
+    isEdit: boolean = false;
+    newTodo?: Todo;
+
+    public constructor(init?: Partial<Todo>) {
         Object.assign(this, init);
     }
 }

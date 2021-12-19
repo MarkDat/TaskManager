@@ -1,16 +1,17 @@
-import {Component, OnInit} from '@angular/core';
-import {CardService, ProjectService, TestService} from '@app/services';
-import {AddCardRequest, Card, GetCardRequest, GetProjectResponse, Phase} from '@app/models';
-import {ActivatedRoute} from '@angular/router';
-import {Subscription} from 'rxjs';
-import {finalize} from 'rxjs/operators';
-import {AppNotify, DISPLAY_FORMAT_DATETIME, HEIGHT_BUTTON, PHASE_CODE, WIDTH_BUTTON} from '@app/utilities';
+import { Component, OnInit } from '@angular/core';
+import { CardService, ProjectService, TestService } from '@app/services';
+import { AddCardRequest, Card, GetCardRequest, GetProjectResponse, Phase } from '@app/models';
+import { ActivatedRoute } from '@angular/router';
+import { Subscription } from 'rxjs';
+import { finalize } from 'rxjs/operators';
+import { AppNotify, DISPLAY_FORMAT_DATETIME, HEIGHT_BUTTON, PHASE_CODE, WIDTH_BUTTON } from '@app/utilities';
 
-@Component({selector: 'app-kanban', templateUrl: './kanban.component.html', styleUrls: ['./kanban.component.css']})
+@Component({ selector: 'app-kanban', templateUrl: './kanban.component.html', styleUrls: ['./kanban.component.css'] })
 
 export class KanbanComponent implements OnInit {
-    lists : Phase[] = [];
-    statuses : object[] = [
+
+    lists: Phase[] = [];
+    statuses: object[] = [
         {
             title: 'Co hoi',
             color: '#8ccbbe',
@@ -37,17 +38,17 @@ export class KanbanComponent implements OnInit {
         }
     ];
 
-    private routeSub : Subscription;
-    public employees : Object = {};
+    private routeSub: Subscription;
+    public employees: Object = {};
     kanbanComponent: KanbanComponent = this;
-    withPopoverVisible: boolean= true;
+    withPopoverVisible: boolean = true;
     displayFormatDatetime = DISPLAY_FORMAT_DATETIME;
-    project : GetProjectResponse = new GetProjectResponse({});
-    isLoading : boolean = false;
-    popupVisible : boolean = false;
-    popupModalVisible : boolean = false;
-    projectId : number;
-    cardAdd : AddCardRequest = new AddCardRequest({});
+    project: GetProjectResponse = new GetProjectResponse({});
+    isLoading: boolean = false;
+    popupVisible: boolean = false;
+    popupModalVisible: boolean = false;
+    projectId: number;
+    cardAdd: AddCardRequest = new AddCardRequest({});
     heightButton: number = HEIGHT_BUTTON;
     widthButton: number = WIDTH_BUTTON;
     isShowModal: boolean = false;
@@ -55,10 +56,10 @@ export class KanbanComponent implements OnInit {
 
 
     constructor(
-        private service : TestService, 
-        private route : ActivatedRoute, 
-        private projectService : ProjectService, 
-        private cardService : CardService,) {
+        private service: TestService,
+        private route: ActivatedRoute,
+        private projectService: ProjectService,
+        private cardService: CardService,) {
         this.isLoading = true;
     }
 
@@ -74,39 +75,37 @@ export class KanbanComponent implements OnInit {
         this.isLoading = false;
 
         this.loadKanban();
+
+        console.log("KANBAN COMPONENT INIT");
     }
 
-    onListReorder(e : any) {
+    onListReorder(e: any) {
         console.log("Reorder");
         const list = this.lists.splice(e.fromIndex, 1)[0];
         this.lists.splice(e.toIndex, 0, list);
 
         const status = this.statuses.splice(e.fromIndex, 1)[0];
         this.statuses.splice(e.toIndex, 0, status);
-        
+
     }
 
-    onTaskDragStart(e : any) {
-        console.log("Start");
+    onTaskDragStart(e: any) {
         e.itemData = e.fromData[e.fromIndex];
-        
+
     }
 
-    async onTaskDrop(e : any, phaseId: number) {
-        console.log("Drop ");
-        console.log(e);
+    async onTaskDrop(e: any, phaseId: number) {
 
         let canMove = await this.cardMove(e.itemData.id, phaseId);
 
-        if(!canMove)
+        if (!canMove)
             return;
 
         e.fromData.splice(e.fromIndex, 1);
         e.toData.splice(e.toIndex, 0, e.itemData);
-        console.log(this.lists);
     }
 
-    onCardClick(card : any, codePhase: string) {
+    onCardClick(card: any, codePhase: string) {
         this.isLoading = true;
         this.card = new Card({});
 
@@ -115,9 +114,9 @@ export class KanbanComponent implements OnInit {
             cardId: card.id
         });
 
-        this.cardService.getCard(cardRequest).pipe(finalize(()=>{
+        this.cardService.getCard(cardRequest).pipe(finalize(() => {
             this.isLoading = false
-        })).subscribe(data =>{
+        })).subscribe(data => {
             this.card = data;
             this.card.phaseCode = codePhase;
             this.popupModalVisible = true;
@@ -162,7 +161,7 @@ export class KanbanComponent implements OnInit {
         });
     }
 
-    loadKanban(){
+    loadKanban() {
         this.isLoading = true;
 
         let listTemplate: Phase[] = []
@@ -176,13 +175,13 @@ export class KanbanComponent implements OnInit {
                 status['phaseId'] = phase.id;
                 listTemplate.push(phase);
             });
-            
+
             this.lists = listTemplate;
         });
     }
 
-   async cardMove(cardId: number, phaseId: number){
-        
+    async cardMove(cardId: number, phaseId: number) {
+
         this.isLoading = true;
 
         return this.cardService.moveCard(cardId, phaseId).pipe(finalize(() => {
@@ -190,11 +189,11 @@ export class KanbanComponent implements OnInit {
         })).toPromise();
     }
 
-    refreshKanban(){
+    refreshKanban() {
         this.loadKanban();
     }
 
-    onModalHidden(e){
+    onModalHidden(e) {
         console.log("OK");
     }
 }

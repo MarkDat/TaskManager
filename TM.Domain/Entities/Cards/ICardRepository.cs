@@ -1,4 +1,6 @@
-﻿using System.Threading.Tasks;
+﻿using System.Collections.Generic;
+using System.Threading.Tasks;
+using TM.Domain.Entities.ToDos;
 using TM.Domain.Interfaces;
 
 namespace TM.Domain.Entities.Cards

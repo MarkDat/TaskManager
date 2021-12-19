@@ -18,9 +18,7 @@
 		<dxi-column dataField="name" dataType="string" [width]="200" caption="Project Name" ></dxi-column>
 		<dxi-column dataField="projectMembers" dataType="string" [width]="200" caption="Project Member" cellTemplate="projectMembers">
 			<div class="" *dxTemplate="let cellData of 'projectMembers'">
-				<div *ngFor="let item of cellData.data.projectMembers">
-						{{item.user.firstName + " " + item.user.lastName + ", "}}
-				</div>
+				{{handleProjectMember(cellData.data.projectMembers)}}
 			</div>
 		</dxi-column>
 	</dx-data-grid>

@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 using TM.API.DTOs.CardAssigns;
 using TM.API.DTOs.Cards;
@@ -106,6 +107,21 @@ namespace TM.API.Controllers
                                 CreateAddCardHistoryRequest(HistoryActionType.Added));
 
             return todoResponse;
+        }
+
+        /// <summary>
+        /// Get todo
+        /// </summary>
+        /// <param name="request">cardId</param>
+        /// <returns>Todo</returns>
+        [HttpGet("{cardId:int}/todo")]
+        [ProducesResponseType(typeof(IActionResult), StatusCodes.Status200OK)]
+        [ProducesResponseType(typeof(IActionResult), StatusCodes.Status400BadRequest)]
+        public async Task<IList<TodoModel>> GetTodos([FromRoute] int cardId)
+        {
+            var todos = await _service.GetTodos(cardId);
+
+            return todos;
         }
 
         /// <summary>

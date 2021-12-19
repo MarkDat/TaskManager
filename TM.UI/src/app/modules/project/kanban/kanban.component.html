@@ -95,6 +95,7 @@
 	<app-modal *ngIf="isShowModal" [card]="card"></app-modal>
 </div>
 
+<!-- POPUP MODAL -->
 <dx-popup [width]="500" [height]="'100%'" [position]="'right'" [showTitle]="true" title="{{card.name}}"
 	[dragEnabled]="true" [closeOnOutsideClick]="true" (onHidden)="onModalHidden($event)"
 	[(visible)]="popupModalVisible">
@@ -105,6 +106,7 @@
 	</div>
 </dx-popup>
 
+<!-- POPUP Add New Card -->
 <dx-popup #popup [width]="300" [height]="200" [showTitle]="true" title="Create new card" [dragEnabled]="false"
 	[closeOnOutsideClick]="true" [showCloseButton]="false" container=".dx-viewport" [(visible)]="popupVisible">
 	<div *dxTemplate="let data of 'content'">

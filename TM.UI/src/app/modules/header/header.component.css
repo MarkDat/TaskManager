@@ -2,3 +2,7 @@
     margin: 0;
     border: 0;
 }
+
+.navbar-brand {
+    color: white;
+}

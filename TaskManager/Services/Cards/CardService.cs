@@ -35,7 +35,7 @@ namespace TM.API.Services.Cards
         private readonly IMapper _mapper;
         private readonly ICardAssignRepository _cardAssignRepository;
         private readonly ICardTagRepository _cardTagRepository;
-        private readonly ICardRepository _cardRepository; 
+        private readonly ICardRepository _cardRepository;
         private readonly IToDoRepository _todoRepository;
         public CardService(
             IUnitOfWork unitOfWork
@@ -52,8 +52,10 @@ namespace TM.API.Services.Cards
             _todoRepository = todoRepository;
         }
 
-        public async Task<GetCardResponse> Get(GetCardRequest request) {
-            return await ExecuteTransaction(async () => {
+        public async Task<GetCardResponse> Get(GetCardRequest request)
+        {
+            return await ExecuteTransaction(async () =>
+            {
 
                 var project = await Repository<Project>().FindAsync(request.ProjectId);
                 if (project is null)
@@ -88,14 +90,16 @@ namespace TM.API.Services.Cards
                 return _mapper.Map<AddCardResponse>(newCard);
             });
         }
-        public async Task<bool> UpdateTodo(TodoUpdateModel request, AddCardHistoryRequest history) {
-            return await ExecuteTransaction(async () => {
+        public async Task<bool> UpdateTodo(TodoUpdateModel request, AddCardHistoryRequest history)
+        {
+            return await ExecuteTransaction(async () =>
+            {
 
                 var todo = await Repository<Todo>().FindAsync(request.Id);
                 if (todo is null)
                     throw new KeyNotFoundException();
 
-                _mapper.Map(request,todo);
+                _mapper.Map(request, todo);
 
                 return true;
             });
@@ -106,7 +110,8 @@ namespace TM.API.Services.Cards
             , UpdateCardRequest request
             , AddCardHistoryRequest history)
         {
-            return await ExecuteTransaction(async () => {
+            return await ExecuteTransaction(async () =>
+            {
 
                 var card = await Repository<Card>().FindAsync(request.CardId);
                 if (card == null)
@@ -152,7 +157,7 @@ namespace TM.API.Services.Cards
                 if (cardMovement == null || movePhase == null)
                     throw new HttpException(string.Format(Messages.RecordNotFound, "card movement and move phase"));
 
-                if(cardMovement.PhaseId == (int)PhaseBasic.Destroy)
+                if (cardMovement.PhaseId == (int)PhaseBasic.Destroy)
                     throw new HttpException("You can't move");
 
                 //get id and name to support write log history
@@ -167,31 +172,36 @@ namespace TM.API.Services.Cards
                     card.AddNewMovement(movePhase);
                 }
                 else
-                    switch (movePhase.AcceptMoveId)
-                    {
-                        case (int)PhaseBasic.Destroy:
-                            throw new HttpException(string.Format(Messages.MoveCardException, PhaseBasic.Destroy.ToValue()));
-
-                        case (int)PhaseBasic.Completed:
-                            throw new HttpException(string.Format(Messages.MoveCardException, PhaseBasic.Completed.ToValue()));
-
-                        case (int)PhaseBasic.Opportunity:
-                            throw new HttpException(string.Format(Messages.MoveCardException, PhaseBasic.Opportunity.ToValue()));
-
-                        case (int)PhaseBasic.Order:
-                            throw new HttpException(string.Format(Messages.MoveCardException, PhaseBasic.Order.ToValue()));
-
-                        case (int)PhaseBasic.Quote:
-                            throw new HttpException(string.Format(Messages.MoveCardException, PhaseBasic.Quote.ToValue()));
-                        default:
-                            throw new HttpException("You can't move !");
-                    }
+                    ErrorMovePhase(movePhase.AcceptMoveId);
 
                 string writeLog = $"card from phase {currentPhaseName} to phase {movePhaseName}";
                 card.AddHistory(ConvertToCardHistory(history, writeLog));
 
                 return true;
             });
+        }
+
+        private void ErrorMovePhase(int? acceptMoveId)
+        {
+            switch (acceptMoveId)
+            {
+                case (int)PhaseBasic.Destroy:
+                    throw new HttpException(string.Format(Messages.MoveCardException, PhaseBasic.Destroy.ToValue()));
+
+                case (int)PhaseBasic.Completed:
+                    throw new HttpException(string.Format(Messages.MoveCardException, PhaseBasic.Completed.ToValue()));
+
+                case (int)PhaseBasic.Opportunity:
+                    throw new HttpException(string.Format(Messages.MoveCardException, PhaseBasic.Opportunity.ToValue()));
+
+                case (int)PhaseBasic.Order:
+                    throw new HttpException(string.Format(Messages.MoveCardException, PhaseBasic.Order.ToValue()));
+
+                case (int)PhaseBasic.Quote:
+                    throw new HttpException(string.Format(Messages.MoveCardException, PhaseBasic.Quote.ToValue()));
+                default:
+                    throw new HttpException("You can't move !");
+            }
         }
 
         public async Task<BasicUserResponse> AssignCard(AddCardAssignRequest request, AddCardHistoryRequest history)
@@ -273,23 +283,32 @@ namespace TM.API.Services.Cards
             return tagResponse;
         }
 
+        #region Todo
+        public async Task<IList<TodoModel>> GetTodos(int cardId)
+        {
+            return await ExecuteTransaction(async () =>
+            {
+                var todos = await _todoRepository.GetTodos(cardId);
+
+                return _mapper.Map<IList<TodoModel>>(todos);
+            });
+        }
+
         public async Task<AddTodoResponse> AddTodo(AddTodoRequest request, AddCardHistoryRequest history)
         {
-            AddTodoResponse todoResponse = null;
-            try
+            return await ExecuteTransaction(async () =>
             {
-                string writeLog = "";
+                AddTodoResponse todoResponse = null;
+
+                var writeLog = "";
                 Todo temp = null;
 
-                await UnitOfWork.BeginTransaction();
-
                 var card = await _cardRepository.GetCardTodo((int)request.CardId);
-                var todoParent = card.Todos.FirstOrDefault(_ => _.Id == request.ParentId);
-
-                if (card == null)
+                if (card is null)
                     throw new KeyNotFoundException();
 
-                if (todoParent == null)
+                var todoParent = card.Todos.FirstOrDefault(_ => _.Id == request.ParentId);
+                if (todoParent is null)
                 {
                     temp = card.AddTodo(request.Name, null);
                     writeLog += $"a todo named {request.Name}";
@@ -302,19 +321,16 @@ namespace TM.API.Services.Cards
 
                 card.AddHistory(ConvertToCardHistory(history, writeLog));
 
-                await UnitOfWork.CommitTransaction();
+                await Repository<Todo>().SaveChangesAsync();
 
                 todoResponse = _mapper.Map<AddTodoResponse>(temp);
-            }
-            catch (Exception)
-            {
-                await UnitOfWork.RollbackTransaction();
-                throw;
-            }
 
-
-            return todoResponse;
+                return todoResponse;
+            });
         }
+
+        #endregion
+
 
         private CardHistory ConvertToCardHistory(AddCardHistoryRequest history, string content)
         {
@@ -325,5 +341,7 @@ namespace TM.API.Services.Cards
                 Content = $"{history.UserName} {history.ActionType.ToLower()} {content}"
             };
         }
+
+
     }
 }

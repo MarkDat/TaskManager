@@ -12,7 +12,14 @@ namespace TM.Domain.Entities.ToDos
         public Todo(string name)
         {
             Name = name;
+            IsCheck = false;
         }
+        public Todo(string name, bool isCheck)
+        {
+            Name = name;
+            IsCheck = isCheck;
+        }
+
         public Todo(
             Card card
             , string name) : base()

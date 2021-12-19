@@ -12,3 +12,11 @@ hr{
     display: flex;
     justify-content: space-between;
 }
+
+.d-flex{
+    display: flex;
+}
+
+.mr-2-p{
+    margin-right: 2%;
+}

@@ -58,8 +58,10 @@ export class ModalDetailsComponent implements OnInit {
 
     let cardRequest = new UpdateCardRequest({
       cardId: this.card.id,
-      value: this.card.dueDate.toString()
+      value: this.card.dueDate.toDateString()
     });
+
+    console.log(cardRequest);
 
     this.cardService.updateCard("duedate", cardRequest).pipe(finalize(() => {
       this.isLoading = false

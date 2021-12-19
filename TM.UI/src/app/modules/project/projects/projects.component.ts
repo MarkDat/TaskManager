@@ -2,7 +2,7 @@ import { Component, OnInit, ViewChild } from '@angular/core';
 import { Router } from '@angular/router';
 import { DxPopupComponent } from 'devextreme-angular';
 import { finalize } from 'rxjs/operators';
-import { AddProjectRequest, GetProjectResponse } from '@app/models';
+import { AddProjectRequest, GetProjectMemberResonse, GetProjectResponse } from '@app/models';
 import { AppNotify, HEIGHT_BUTTON, HEIGHT_POPUP, WIDTH_BUTTON, WIDTH_POPUP } from '@app/utilities';
 import { ProjectService } from '@app/services';
 
@@ -32,6 +32,7 @@ export class ProjectsComponent implements OnInit {
 
   ngOnInit(): void {
     this.loadProjects();
+    console.log("PROJECTS INIT");
   }
   
   loadProjects(){
@@ -74,5 +75,11 @@ export class ProjectsComponent implements OnInit {
       console.log(e.data);
       this.router.navigate(['projects',e.data.id,'kanban']);
     }
+  }
+
+  handleProjectMember(projectMembers: GetProjectMemberResonse[]){
+    return projectMembers.map((e) => {
+        return e.user.firstName + " " + e.user.lastName;
+    }).join(", ");
   }
 }

@@ -47,7 +47,7 @@
         <div class="dx-field">
             <div class="dx-field-label">Mo ta</div>
             <dx-text-area class="dx-field-value" [height]="80" [(text)]="card.description"
-                [placeholder]="'Enter something...'">
+                [placeholder]="'Enter something...'" (onEnterKey)="onClickSaveDesc()">
             </dx-text-area>
         </div>
         <div style="width: 100%; height: 35px;">
@@ -60,9 +60,9 @@
     <div class="dx-fieldset">
         <div class="dx-fieldset-header">To do</div>
         <!-- [items]="stafs" -->
-        <app-checklist-todo [todos]="card.todos"></app-checklist-todo>
+        <app-checklist-todo [todos]="card.todos" [cardId]="this.card.id"></app-checklist-todo>
     </div>
-    <div class="dx-fieldset">
+    <div class="dx-fieldset" style="margin-top: 15px;">
         <div class="dx-fieldset-header">History</div>
         <dx-text-area [height]="100" [value]="getHistoryString()" [readOnly]="true"></dx-text-area>
     </div>
