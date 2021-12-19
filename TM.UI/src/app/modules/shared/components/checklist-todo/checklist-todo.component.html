@@ -1,0 +1,66 @@
+<div id="container-todos">
+    <div class="todos"  *ngFor="let todo of todos; let todoIndex = index">
+        <div class="todo">
+            <dx-check-box
+            [(value)]="todo.isCheck" (onValueChanged)="onClickTodo($event, todoIndex)">
+            </dx-check-box>
+            <dx-text-area
+            class="title"
+            [autoResizeEnabled]="true"
+            [ngStyle]="{'border': !todo.isEdit ? 'none':'1px solid black'}"
+            [height]="!todo.isEdit ? 23:40"
+            [maxLength]="200" 
+            [(value)]="todo.name" 
+            (onEnterKey)="onEdited(todo)"
+            [readOnly]="!todo.isEdit" ></dx-text-area>
+            
+            <div class="pointer edit-todo">
+                <i (click)="clickToEdit(todo)" class="dx-icon-edit"></i>
+            </div>
+            <div class="pointer remove-subtodo">
+                <i class="dx-icon-trash"></i>
+            </div>
+        </div>
+
+        <div class="todo sub-todo" *ngFor="let subTodo of todo.items">
+            <dx-check-box
+            [(value)]="subTodo.isCheck" 
+            (onValueChanged)="onClickTodo($event, todoIndex, false, subTodo)">
+            </dx-check-box>
+            <!-- [height]="!subTodo.isEdit ? 23:40" -->
+            <dx-text-area
+            class="title"
+            [autoResizeEnabled]="true"
+            [ngStyle]="{'border': !subTodo.isEdit ? 'none':'1px solid black'}"
+            [maxLength]="200"
+            [(value)]="subTodo.name" 
+            (onEnterKey)="onEdited(subTodo)"
+            [readOnly]="!subTodo.isEdit" ></dx-text-area>
+
+            <div class="action d-flex mr-2-p">
+                <div class="pointer edit-todo">
+                    <i (click)="clickToEdit(subTodo)" class="dx-icon-edit"></i>
+                </div>
+                <div class="pointer remove-subtodo">
+                    <i class="dx-icon-trash"></i>
+                </div>
+            </div>
+        </div>
+        <div class="todo sub-todo new-sub-todo">
+            <dx-text-box 
+                [(value)]="newSubTodo.name" 
+                [readOnly]="false"
+                (onEnterKey)="onAddTodo(newSubTodo.name,todo.id)"
+                placeholder="Them moi sub todo"></dx-text-box>
+        </div>
+    </div>
+    <div class="todos new-todo">
+        <dx-text-box 
+            [(value)]="newTodo.name" 
+            [readOnly]="false"
+            (onEnterKey)="onAddTodo(newTodo.name)"
+            placeholder="Them moi todo"></dx-text-box>
+    </div>
+</div>
+
+<dx-load-panel [shading]="true" [(visible)]="isLoading" shadingColor="rgba(0,0,0,0.4)"></dx-load-panel>

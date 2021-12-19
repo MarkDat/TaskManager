@@ -12,6 +12,7 @@ namespace TM.API.DTOs.Phases
         public int Id { get; set; }
         public string Name { get; set; }
         public int? AcceptMoveId { get; set; }
+        public string Code { get; set; }
         public IEnumerable<GetCardResponse> Cards { get; set; }
     }
 }

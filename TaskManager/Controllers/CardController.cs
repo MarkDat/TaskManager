@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 using TM.API.DTOs.CardAssigns;
 using TM.API.DTOs.Cards;
@@ -15,7 +16,7 @@ using TM.Domain.Shared;
 namespace TM.API.Controllers
 {
     [Authorize]
-    [Route("api/[controller]")]
+    [Route("api/card")]
     [ApiController]
     public class CardController : BaseController
     {
@@ -43,6 +44,21 @@ namespace TM.API.Controllers
                             CreateAddCardHistoryRequest(HistoryActionType.Added));
 
             return newCard;
+        }
+
+        /// <summary>
+        ///  Get card details
+        /// </summary>
+        /// <param name="request">projectId, cardId</param>
+        /// <returns>card</returns>
+        [HttpPost("details")]
+        [ProducesResponseType(typeof(IActionResult), StatusCodes.Status200OK)]
+        [ProducesResponseType(typeof(IActionResult), StatusCodes.Status400BadRequest)]
+        public async Task<GetCardResponse> Get([FromBody] GetCardRequest request)
+        {
+            var card = await _service.Get(request);
+
+            return card;
         }
 
         /// <summary>
@@ -94,16 +110,31 @@ namespace TM.API.Controllers
         }
 
         /// <summary>
+        /// Get todo
+        /// </summary>
+        /// <param name="request">cardId</param>
+        /// <returns>Todo</returns>
+        [HttpGet("{cardId:int}/todo")]
+        [ProducesResponseType(typeof(IActionResult), StatusCodes.Status200OK)]
+        [ProducesResponseType(typeof(IActionResult), StatusCodes.Status400BadRequest)]
+        public async Task<IList<TodoModel>> GetTodos([FromRoute] int cardId)
+        {
+            var todos = await _service.GetTodos(cardId);
+
+            return todos;
+        }
+
+        /// <summary>
         ///  Move card to phase and order(developing)
         /// </summary>
         /// <param name="request">cardId, phaseId</param>
         /// <returns>bool</returns>
-        [HttpPut("order")]
+        [HttpPut("{cardId:int}/phase/{phaseId:int}/move")]
         [ProducesResponseType(typeof(IActionResult), StatusCodes.Status200OK)]
         [ProducesResponseType(typeof(IActionResult), StatusCodes.Status400BadRequest)]
-        public async Task<bool> OrderCard([FromBody] UpdateCardRequest request)
+        public async Task<bool> OrderCard([FromRoute] int cardId, [FromRoute] int phaseId)
         {
-            var isUpdate = await _service.OrderCard(request,
+            var isUpdate = await _service.OrderCard(cardId, phaseId,
                         CreateAddCardHistoryRequest(HistoryActionType.Move));
 
             return isUpdate;
@@ -125,5 +156,22 @@ namespace TM.API.Controllers
 
             return isUpdate;
         }
+
+        /// <summary>
+        ///  Update todo
+        /// </summary>
+        /// <param name="request">todo</param>
+        /// <returns>bool</returns>
+        [HttpPut("todo")]
+        [ProducesResponseType(typeof(IActionResult), StatusCodes.Status200OK)]
+        [ProducesResponseType(typeof(IActionResult), StatusCodes.Status400BadRequest)]
+        public async Task<bool> UpdateTodo([FromBody] TodoUpdateModel request)
+        {
+            var isUpdate = await _service.UpdateTodo(request,
+                                 CreateUpdateHistoryRequest(HistoryActionType.Updated));
+
+            return isUpdate;
+        }
+
     }
 }

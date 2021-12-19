@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Data;
 using System.Threading;
 using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
@@ -14,6 +15,7 @@ namespace TM.Domain.Interfaces
         Task BeginTransaction();
         Task CommitTransaction();
         Task RollbackTransaction();
+        void SetIsolationLevel(IsolationLevel isolationLevel);
 
     }
 }

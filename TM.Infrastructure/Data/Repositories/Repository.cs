@@ -18,6 +18,11 @@ namespace TM.Infrastructure
 			DbContext = dbContext;
 		}
 
+		public async Task SaveChangesAsync()
+		{
+			await DbContext.SaveChangesAsync();
+		}
+
 		public async Task DeleteAsync(int id, bool saveChanges = true)
 		{
 			var entity = await Entities.FindAsync(id);
@@ -87,6 +92,31 @@ namespace TM.Infrastructure
 			}
 		}
 
+		public async Task UpdateRangeAsync(IEnumerable<T> entities)
+		{
+			foreach (var entity in entities)
+			{
+				await UpdateAsync(entity);
+			}
+		}
 
-	}
+		public async Task UpdateAsync(T entity)
+		{
+			await DbContext.SaveChangesAsync();
+		}
+
+		public void Update(T entity)
+		{
+			Entities.Update(entity);
+
+			DbContext.SaveChanges();
+		}
+
+        public void UpdateRange(IEnumerable<T> entities)
+        {
+			Entities.UpdateRange(entities);
+
+			DbContext.SaveChanges();
+		}
+    }
 }

@@ -63,21 +63,21 @@
     <Folder Include="dbo\Tables\" />
   </ItemGroup>
   <ItemGroup>
-    <Build Include="dbo\Tables\User.sql" />
+    <None Include="TM.Database.publish.xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Build Include="dbo\Tables\Card.sql" />
+    <Build Include="dbo\Tables\CardAssign.sql" />
+    <Build Include="dbo\Tables\CardHistory.sql" />
+    <Build Include="dbo\Tables\CardMovement.sql" />
+    <Build Include="dbo\Tables\CardTag.sql" />
+    <Build Include="dbo\Tables\Phase.sql" />
     <Build Include="dbo\Tables\Priority.sql" />
     <Build Include="dbo\Tables\Project.sql" />
     <Build Include="dbo\Tables\ProjectMember.sql" />
-    <Build Include="dbo\Tables\Phase.sql" />
     <Build Include="dbo\Tables\ProjectPhase.sql" />
-    <Build Include="dbo\Tables\Card.sql" />
-    <Build Include="dbo\Tables\CardMovement.sql" />
-    <Build Include="dbo\Tables\CardAssign.sql" />
-    <Build Include="dbo\Tables\Todo.sql" />
     <Build Include="dbo\Tables\Tag.sql" />
-    <Build Include="dbo\Tables\CardTag.sql" />
-    <Build Include="dbo\Tables\CardHistory.sql" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="TM.Database.publish.xml" />
+    <Build Include="dbo\Tables\Todo.sql" />
+    <Build Include="dbo\Tables\User.sql" />
   </ItemGroup>
 </Project>

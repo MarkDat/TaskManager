@@ -28,5 +28,15 @@ namespace TM.API.Controllers
                 ActionType = type.ToString()
             };
         }
+
+        protected AddCardHistoryRequest CreateUpdateHistoryRequest(HistoryActionType type)
+        {
+            return new AddCardHistoryRequest()
+            {
+                UserId = GetUserIdGlobal(),
+                UserName = GetUserNameGlobal(),
+                ActionType = type.ToString()
+            };
+        }
     }
 }

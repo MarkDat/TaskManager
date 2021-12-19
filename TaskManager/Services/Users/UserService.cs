@@ -12,6 +12,8 @@ using TM.API.DTOs.Users;
 using TM.API.Services.interfaces;
 using TM.Domain.Entities.Users;
 using TM.Domain.Interfaces;
+using TM.Domain.Resources;
+using TM.Domain.Utilities;
 
 namespace TM.API.Services.Users
 {
@@ -33,11 +35,9 @@ namespace TM.API.Services.Users
 
         public async Task<LoginUserResponse> AuthenticateUser(LoginUserRequest request)
         {
-            var user = _userRepository.Login(request.UserName, request.Password);
-            if (user == null) return new LoginUserResponse() {
-                IsSuccess = false,
-                Message = "User name or password invalid !",
-            };
+            var user = await _userRepository.Login(request.UserName, request.Password);
+            if (user == null)
+                throw new HttpException(Messages.IncorrectCredential, System.Net.HttpStatusCode.Unauthorized);
 
             var token = GenerateJwtSecurityToken(user);
             string tokenAsString = new JwtSecurityTokenHandler().WriteToken(token);

@@ -1,36 +1,29 @@
-import { NgModule } from '@angular/core';
+import {NgModule} from '@angular/core';
+import {RouterModule, Routes} from '@angular/router';
+import {AppComponent} from './app.component';
+import {TestService, BaseService, AuthService} from '@app/modules/shared/services';
+import { AuthModule } from '@app/modules/auth/auth.module';
+import { SharedModule } from '@app/modules/shared/shared.module';
 import { BrowserModule } from '@angular/platform-browser';
-import {
-  DxButtonModule,
-  DxScrollViewModule,
-  DxSortableModule,
-} from 'devextreme-angular';
-import { NgCircleProgressModule } from 'ng-circle-progress';
-
-import { AppComponent } from './app.component';
-import { TestService } from './services/test.service';
-import { KanbanComponent } from './components/kanban/kanban.component';
+import { HttpClientModule } from '@angular/common/http';
+import { ProjectModule } from '@app/modules/project/project.module';
+import { HeaderModule } from '@app/modules/header/header.module';
+import { AppRoutingModule } from './app-routing.module';
 
 @NgModule({
-  declarations: [AppComponent, KanbanComponent],
-  imports: [
-    BrowserModule,
-    DxButtonModule,
-    DxScrollViewModule,
-    DxSortableModule,
-    NgCircleProgressModule.forRoot({
-      radius: 20,
-      outerStrokeWidth: 1,
-      innerStrokeWidth: 12,
-      outerStrokeColor: '#78C000',
-      innerStrokeColor: '#C7E596',
-      showSubtitle: false,
-      clockwise: true,
-      showUnits: false,
-      showImage: false,
-    }),
-  ],
-  providers: [TestService],
-  bootstrap: [AppComponent],
+    declarations: [
+        AppComponent
+    ],
+    imports: [  
+        BrowserModule,
+        HttpClientModule,
+        HeaderModule,
+        SharedModule,
+        AppRoutingModule,
+    ],
+    providers: [
+        TestService, AuthService, BaseService
+    ],
+    bootstrap: [AppComponent]
 })
 export class AppModule {}

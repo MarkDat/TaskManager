@@ -1,0 +1,71 @@
+<div class="form">
+    <div class="dx-fieldset">
+        <div class="dx-field">
+            <div class="dx-field-label">Nghiep vu</div>
+            <div class="dx-field-value-static">
+                <dx-button class="btn-business {{card.phaseCode === opCode ? 'light':''}}" [text]="'Co hoi'">
+                </dx-button>
+                >
+                <dx-button class="btn-business {{card.phaseCode === quoteCode ? 'light':''}}" [text]="'Bao gia'">
+                </dx-button>
+                >
+                <dx-button class="btn-business {{card.phaseCode === orderCode ? 'light':''}}" [text]="'Don hang'">
+                </dx-button>
+            </div>
+        </div>
+        <div class="dx-field">
+            <div class="dx-field-label">Nguoi phu trach</div>
+            <div class="dx-field-value-static" style="display: flex;">
+                <!-- <img class="img-circle" width="26" height="26" src="https://www.fillmurray.com/50/50" />
+                <div class="name">Dat Luong</div> -->
+                <dx-button [width]="20" [height]="20" type="default" icon="plus" class="btn-icon"></dx-button>
+            </div>
+        </div>
+        <div class="dx-field">
+            <div class="dx-field-label">Thoi han</div>
+            <div class="dx-field-value-static" [style.padding-left]="0">
+                <dx-date-box [style.border]="'none'" [acceptCustomValue]="false" [height]="20" [width]="145"
+                    [displayFormat]="displayFormatDatetime" [value]="card.dueDate"
+                    (onValueChanged)="onDateChange($event)" type="date">
+                </dx-date-box>
+            </div>
+        </div>
+        <div class="dx-field">
+            <div class="dx-field-label">Uu tien</div>
+            <div class="dx-field-value-static">
+                <dx-button class="priority" text="Trung bình" icon="fas fa-flag" [style.index]=999999
+                    [style.background-color]="'#6495ED'" [style.color]="'white'">
+                </dx-button>
+            </div>
+        </div>
+        <div class="dx-field">
+            <div class="dx-field-label">The</div>
+            <div class="dx-field-value-static">
+                <dx-button [width]="20" [height]="20" type="default" icon="plus" class="btn-icon"></dx-button>
+            </div>
+        </div>
+        <div class="dx-field">
+            <div class="dx-field-label">Mo ta</div>
+            <dx-text-area class="dx-field-value" [height]="80" [(text)]="card.description"
+                [placeholder]="'Enter something...'" (onEnterKey)="onClickSaveDesc()">
+            </dx-text-area>
+        </div>
+        <div style="width: 100%; height: 35px;">
+
+            <dx-button style="margin-top: 5px;float: right;" [text]="'Save'" [type]="'default'"
+                (onClick)="onClickSaveDesc()">
+            </dx-button>
+        </div>
+    </div>
+    <div class="dx-fieldset">
+        <div class="dx-fieldset-header">To do</div>
+        <!-- [items]="stafs" -->
+        <app-checklist-todo [todos]="card.todos" [cardId]="this.card.id"></app-checklist-todo>
+    </div>
+    <div class="dx-fieldset" style="margin-top: 15px;">
+        <div class="dx-fieldset-header">History</div>
+        <dx-text-area [height]="100" [value]="getHistoryString()" [readOnly]="true"></dx-text-area>
+    </div>
+</div>
+
+<dx-load-panel [shading]="true" [(visible)]="isLoading" shadingColor="rgba(0,0,0,0.4)"></dx-load-panel>

@@ -2,7 +2,7 @@
 {
   "compileOnSave": false,
   "compilerOptions": {
-    "baseUrl": "./",
+    "baseUrl": "src",
     "outDir": "./dist/out-tsc",
     "forceConsistentCasingInFileNames": true,
     "strict": true,
@@ -25,13 +25,32 @@
     "paths": {
       "jszip": [
         "node_modules/jszip/dist/jszip.min.js"
-      ]
+      ],
+      "@app/models": [
+				"app/modules/shared/models/index.ts"
+			],
+      "@app/services": [
+				"app/modules/shared/services/index.ts"
+			],
+      "@app/common": [
+				"app/common/index.ts"
+			],
+      "@app/components": [
+				"app/components/index.ts"
+			],
+      "@app/modules/*": [
+				"app/modules/*"
+			],
+      "@app/utilities": [
+				"app/modules/shared/utilities/index.ts"
+			]
     }
   },
   "angularCompilerOptions": {
     "enableI18nLegacyMessageIdFormat": false,
     "strictInjectionParameters": true,
     "strictInputAccessModifiers": true,
-    "strictTemplates": true
+    "strictTemplates": true,
+    "fullTemplateTypeCheck": true,
   }
 }

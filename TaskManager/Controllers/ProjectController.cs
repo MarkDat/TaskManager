@@ -17,7 +17,7 @@ using TM.API.Services.Projects;
 namespace TM.API.Controllers
 {
     [Authorize]
-    [Route("api/[controller]")]
+    [Route("api/project")]
     [ApiController]
     public class ProjectController : BaseController
     {
@@ -95,6 +95,19 @@ namespace TM.API.Controllers
             return newProject;
         }
 
+        /// <summary>
+        ///  get a project
+        /// </summary>
+        /// <param name="request">Name</param>
+        /// <returns>New a project which just created</returns>
+        [HttpGet("{projectId:int}")]
+        [ProducesResponseType(typeof(IActionResult), StatusCodes.Status200OK)]
+        [ProducesResponseType(typeof(IActionResult), StatusCodes.Status400BadRequest)]
+        public async Task<GetProjectResponse> GetOne([FromRoute] int projectId)
+        {
+            var userId = GetUserIdGlobal();
 
+            return await _service.GetOne(projectId, userId);
+        }
     }
 }

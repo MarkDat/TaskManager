@@ -36,9 +36,7 @@ namespace TM.API.Controllers
         /// </summary>
         /// <param name="request">username, password</param>
         /// <returns>status user</returns>
-        [HttpPost]
-        [ProducesResponseType(typeof(IActionResult), StatusCodes.Status200OK)]
-        [ProducesResponseType(typeof(IActionResult), StatusCodes.Status400BadRequest)]
+        [HttpPost("login")]
         public async Task<LoginUserResponse> Login([FromBody] LoginUserRequest request)
         {
            var user = await _service.AuthenticateUser(request);

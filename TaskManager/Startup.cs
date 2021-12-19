@@ -9,6 +9,7 @@ using TaskManager.Extensions;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
 using System.Text;
+using TM.API.Extensions;
 
 namespace TaskManager
 {
@@ -33,11 +34,11 @@ namespace TaskManager
                     .AddMapping()
                     .AddSwagger();
 
-            services.AddCors(options => {
+            services.AddCors(options =>
+            {
                 options.AddPolicy("CorsPolicy", builder => builder.AllowAnyOrigin()
                                                                    .AllowAnyMethod()
-                                                                   .AllowAnyHeader()
-                                                                   .AllowCredentials().Build());
+                                                                   .AllowAnyHeader().Build());
             });
 
             services.AddHttpContextAccessor();
@@ -69,6 +70,8 @@ namespace TaskManager
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
+            app.UseCors("CorsPolicy");
+
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
@@ -76,7 +79,11 @@ namespace TaskManager
                 app.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v1/swagger.json", "TaskManager v1"));
             }
 
-            
+            app.UseExceptionHandler(new ExceptionHandlerOptions
+            {
+                ExceptionHandler = new ExceptionMiddleware(env).Invoke
+            });
+
             app.UseHttpsRedirection();
 
             app.UseRouting();
