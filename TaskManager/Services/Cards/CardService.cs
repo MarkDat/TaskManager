@@ -209,10 +209,8 @@ namespace TM.API.Services.Cards
 
         public async Task<BasicUserResponse> AssignCard(AddCardAssignRequest request, AddCardHistoryRequest history)
         {
-            BasicUserResponse basicUser = null;
-            try
-            {
-                await UnitOfWork.BeginTransaction();
+            return await ExecuteTransaction(async () => {
+                BasicUserResponse basicUser = null;
 
                 var cardAssignRepo = UnitOfWork.Repository<CardAssign>();
 
@@ -233,25 +231,15 @@ namespace TM.API.Services.Cards
                 card.AddHistory(ConvertToCardHistory(history, writeLog));
 
                 basicUser = _mapper.Map<BasicUserResponse>(user);
-                await UnitOfWork.CommitTransaction();
 
-            }
-            catch (Exception)
-            {
-                await UnitOfWork.RollbackTransaction();
-                throw;
-            }
-
-
-            return basicUser;
+                return basicUser;
+            }); 
         }
 
         public async Task<GetTagResponse> AddTag(CardTagRequest request, AddCardHistoryRequest history)
         {
-            GetTagResponse tagResponse = null;
-            try
-            {
-                await UnitOfWork.BeginTransaction();
+            return await ExecuteTransaction(async () => {
+                GetTagResponse tagResponse = null;
 
                 var card = await UnitOfWork.Repository<Card>().FindAsync(request.CardId);
                 var tag = await UnitOfWork.Repository<Tag>().FindAsync(request.TagId);
@@ -265,25 +253,16 @@ namespace TM.API.Services.Cards
                 if (cardTag == null)
                     card.AddCardTag(tag);
                 else
-                {
-                    await UnitOfWork.RollbackTransaction();
                     return tagResponse;
-                }
+                
 
                 string writeLog = $"tag named {tag.Name}";
                 card.AddHistory(ConvertToCardHistory(history, writeLog));
 
                 tagResponse = _mapper.Map<GetTagResponse>(tag);
-                await UnitOfWork.CommitTransaction();
-            }
-            catch (Exception)
-            {
-                await UnitOfWork.RollbackTransaction();
-                throw;
-            }
 
-
-            return tagResponse;
+                return tagResponse;
+            });
         }
 
         #region Todo
