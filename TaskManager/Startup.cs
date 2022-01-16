@@ -43,12 +43,13 @@ namespace TaskManager
 
             services.AddHttpContextAccessor();
 
-            services.AddControllers().AddNewtonsoftJson(option=> 
+            services.AddControllers().AddNewtonsoftJson(option =>
                 option.SerializerSettings.ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore
             );
 
             services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
-                    .AddJwtBearer(options => {
+                    .AddJwtBearer(options =>
+                    {
                         options.TokenValidationParameters = new TokenValidationParameters
                         {
                             ValidateIssuer = true,

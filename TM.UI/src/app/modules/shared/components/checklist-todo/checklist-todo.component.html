@@ -1,19 +1,16 @@
 <div id="container-todos">
-    <div class="todos"  *ngFor="let todo of todos; let todoIndex = index">
+    <div class="todos" *ngFor="let todo of todos; let todoIndex = index">
         <div class="todo">
-            <dx-check-box
-            [(value)]="todo.isCheck" (onValueChanged)="onCheckTodo(todo)">
+            <div class="has-subtodo">
+                <i class="fas fa-caret-down" *ngIf="todo.items.length !== 0"></i>
+            </div>
+
+            <dx-check-box [(value)]="todo.isCheck" (onValueChanged)="onCheckTodo(todo)">
             </dx-check-box>
-            <dx-text-area
-            class="title pointer-hover"
-            [autoResizeEnabled]="true"
-            [ngStyle]="{'border': !todo.isEdit ? 'none':'1px solid black'}"
-            [maxLength]="200" 
-            [(value)]="todo.name" 
-            (onEnterKey)="onEdited(todo)"
-            (click)="onShowChild(todo)"
-            [readOnly]="!todo.isEdit" ></dx-text-area>
-            
+            <dx-text-area class="title pointer-hover" [autoResizeEnabled]="true"
+                [ngStyle]="{'border': !todo.isEdit ? 'none':'1px solid black'}" [maxLength]="200" [(value)]="todo.name"
+                (onEnterKey)="onEdited(todo)" (click)="onShowChild(todo)" [readOnly]="!todo.isEdit"></dx-text-area>
+
             <div class="pointer edit-todo">
                 <i (click)="clickToEdit(todo)" class="dx-icon-edit"></i>
             </div>
@@ -24,21 +21,14 @@
 
         <div class="subtodo-container" *ngIf="todo.isShowChild">
             <div class="todo sub-todo" *ngFor="let subTodo of todo.items">
-                <dx-check-box
-                [(value)]="subTodo.isCheck" 
-                (onValueChanged)="onCheckSubTodo(subTodo, todo)">
+                <dx-check-box [(value)]="subTodo.isCheck" (onValueChanged)="onCheckSubTodo(subTodo, todo)">
                 </dx-check-box>
                 <!-- [height]="!subTodo.isEdit ? 23:40" -->
-                <dx-text-area
-                class="title pointer-hover"
-                [autoResizeEnabled]="true"
-                [ngStyle]="{'border': !subTodo.isEdit ? 'none':'1px solid black'}"
-                [maxLength]="200"
-                [width]="'85%'"
-                [(value)]="subTodo.name" 
-                (onEnterKey)="onEdited(subTodo)"
-                [readOnly]="!subTodo.isEdit" ></dx-text-area>
-    
+                <dx-text-area class="title pointer-hover" [autoResizeEnabled]="true"
+                    [ngStyle]="{'border': !subTodo.isEdit ? 'none':'1px solid black'}" [maxLength]="200" [width]="'85%'"
+                    [(value)]="subTodo.name" (onEnterKey)="onEdited(subTodo)" [readOnly]="!subTodo.isEdit">
+                </dx-text-area>
+
                 <div class="action d-flex mr-2-p">
                     <div class="pointer edit-todo">
                         <i (click)="clickToEdit(subTodo)" class="dx-icon-edit"></i>
@@ -49,19 +39,13 @@
                 </div>
             </div>
             <div class="todo sub-todo new-sub-todo">
-                <dx-text-box 
-                    [(value)]="todo.nameNewTodo" 
-                    [readOnly]="false"
-                    (onEnterKey)="onAddTodo(todo,todo.id)"
+                <dx-text-box [(value)]="todo.nameNewTodo" [readOnly]="false" (onEnterKey)="onAddTodo(todo,todo.id)"
                     placeholder="Them moi sub todo"></dx-text-box>
             </div>
         </div>
     </div>
     <div class="todos new-todo">
-        <dx-text-box 
-            [(value)]="newTodo.nameNewTodo" 
-            [readOnly]="false"
-            (onEnterKey)="onAddTodo(newTodo)"
+        <dx-text-box [(value)]="newTodo.nameNewTodo" [readOnly]="false" (onEnterKey)="onAddTodo(newTodo)"
             placeholder="Them moi todo"></dx-text-box>
     </div>
 </div>

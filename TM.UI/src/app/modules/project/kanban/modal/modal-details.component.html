@@ -62,10 +62,6 @@
         <!-- [items]="stafs" -->
         <app-checklist-todo [todos]="card.todos" [cardId]="this.card.id" [modalComponent]="this"></app-checklist-todo>
     </div>
-    <div class="dx-fieldset" style="margin-top: 15px;">
-        <div class="dx-fieldset-header">Lịch sử</div>
-        <dx-text-area [height]="100" [value]="getHistoryString()" [readOnly]="true"></dx-text-area>
-    </div>
 </div>
 
 <dx-load-panel [shading]="true" [(visible)]="isLoading" shadingColor="rgba(0,0,0,0.4)"></dx-load-panel>

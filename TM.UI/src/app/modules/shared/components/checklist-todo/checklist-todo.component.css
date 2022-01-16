@@ -29,6 +29,12 @@
     width: 300px;
 }
 
+.has-subtodo{
+    font-size: 20px;
+    margin-right: 3px;
+    width: 15px;
+}
+
 ::ng-deep .dx-textarea .dx-texteditor-input{
     padding: 0;
 }

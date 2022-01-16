@@ -96,12 +96,21 @@
 </div>
 
 <!-- POPUP MODAL -->
-<dx-popup [width]="500" [height]="'100%'" [position]="'right'" [showTitle]="true" title="{{card.name}}"
-	[dragEnabled]="true" [closeOnOutsideClick]="true" (onHidden)="onModalHidden($event)"
-	[(visible)]="popupModalVisible">
+<dx-popup [width]="500" [height]="'100%'" [position]="'right'" [showTitle]="true"
+	[dragEnabled]="false" [closeOnOutsideClick]="true" (onHidden)="onModalHidden($event)"
+	[(visible)]="popupModalVisible" titleTemplate="title">
+	<div *dxTemplate="let data of 'title'">
+        <div class="title-header">
+			<div class="title-name">{{card.name}}</div>
+			<div class="right-header">
+				<i class="fas fa-bell btn-popup" id="showNoti" (click)="toggleWithNoti($event)"></i>
+				<i class="fas fa-times close-popup btn-popup" (click)="hideModal($event)"></i>
+			</div>
+		</div>
+    </div>
 	<div *dxTemplate="let data of 'content'">
 		<dx-scroll-view width="100%" height="100%">
-			<app-modal *ngIf="popupModalVisible" [card]="card" [kanbanComponent]="kanbanComponent"></app-modal>
+			<app-modal *ngIf="popupModalVisible" (cardChange)="changedCard($event)" [(card)]="card" [kanbanComponent]="kanbanComponent"></app-modal>
 		</dx-scroll-view>
 	</div>
 </dx-popup>
@@ -123,5 +132,22 @@
 		</div>
 	</div>
 </dx-popup>
+
+
+<dx-popover
+        target="#showNoti"
+        position="bottom"
+        [width]="300"
+		[height]="300"
+        [showTitle]="true"
+        title="History"
+        [(visible)]="isShowNotification"
+      >
+        <div *dxTemplate="let data = model; of: 'content'">
+			<dx-scroll-view width="100%" height="100%">
+				<p [outerHTML]="getHistoryString()"></p>
+			</dx-scroll-view>
+        </div>
+</dx-popover>
 
 <dx-load-panel [shading]="true" [(visible)]="isLoading" shadingColor="rgba(0,0,0,0.4)"></dx-load-panel>

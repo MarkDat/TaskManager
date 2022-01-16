@@ -5,6 +5,7 @@ import { ActivatedRoute } from '@angular/router';
 import { Subscription } from 'rxjs';
 import { finalize } from 'rxjs/operators';
 import { AppNotify, DISPLAY_FORMAT_DATETIME, HEIGHT_BUTTON, PHASE_CODE, WIDTH_BUTTON } from '@app/utilities';
+import { DatePipe } from '@angular/common';
 
 @Component({ selector: 'app-kanban', templateUrl: './kanban.component.html', styleUrls: ['./kanban.component.css'] })
 
@@ -40,6 +41,7 @@ export class KanbanComponent implements OnInit {
 
     private routeSub: Subscription;
     public employees: Object = {};
+    isShowNotification: boolean = false;
     kanbanComponent: KanbanComponent = this;
     withPopoverVisible: boolean = true;
     displayFormatDatetime = DISPLAY_FORMAT_DATETIME;
@@ -59,7 +61,8 @@ export class KanbanComponent implements OnInit {
         private service: TestService,
         private route: ActivatedRoute,
         private projectService: ProjectService,
-        private cardService: CardService,) {
+        private cardService: CardService,
+        public datepipe: DatePipe) {
         this.isLoading = true;
     }
 
@@ -196,4 +199,33 @@ export class KanbanComponent implements OnInit {
     onModalHidden(e) {
         console.log("OK");
     }
+
+    toggleWithNoti(e){
+        this.isShowNotification = !this.isShowNotification;
+    }
+
+    public getHistoryString(){
+        let str = '';
+    
+        this.card.cardHistories.sort((a,b) =>{
+             
+          let dateA = new Date(a.createdDate).getTime();
+           let dateB = new Date(b.createdDate).getTime();
+    
+           return dateA < dateB ? 1 : -1; 
+        });
+    
+        this.card.cardHistories.map(e => {
+          str+=`<b>[${this.datepipe.transform(e.createdDate, 'dd/MM/yyyy')}]</b> ${e.content} <br>`
+        });
+        return str;
+      }
+
+      changedCard(e){
+          this.card = e;
+      }
+
+      hideModal(e){
+          this.popupModalVisible = false;
+      }
 }

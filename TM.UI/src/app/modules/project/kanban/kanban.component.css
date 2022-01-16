@@ -192,3 +192,18 @@
 .avatar{
   border-radius: 50%;
 }
+
+.title-header{
+  display: flex;
+  justify-content: space-between;
+  font-size: 1.5em;
+}
+
+.close-popup{
+  font-size: 20px;
+  margin-left: 15px;
+}
+
+.btn-popup{
+  cursor: pointer;
+}
