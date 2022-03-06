@@ -8,9 +8,5 @@ import { Component } from '@angular/core';
 export class AppComponent {
   isLogin: boolean = false;
   constructor(){
-    if(sessionStorage.getItem('tkn'))
-      this.isLogin = true;
-    else
-      this.isLogin = false;
   }
 }

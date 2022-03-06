@@ -21,9 +21,11 @@ import {
   DxPopoverModule
 } from 'devextreme-angular';
 import { ChecklistTodoComponent } from './components/checklist-todo/checklist-todo.component';
+import { RouterModule } from '@angular/router';
 
 export const COMMON_MODULES = [
-  CommonModule
+  CommonModule,
+  RouterModule
 ];
 
 export const DEV_EXTREME_MODULES = [

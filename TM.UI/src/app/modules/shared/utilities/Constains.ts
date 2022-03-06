@@ -5,3 +5,5 @@ export const PHASE_CODE = {
     Completed:'C',
     Destroy:'D',
 }
+
+export const TOKEN_STORE_NAME = 'tkn';

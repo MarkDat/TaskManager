@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import {Router} from '@angular/router';
 import {BehaviorSubject, Observable, throwError} from 'rxjs';
 import {HttpClient, HttpErrorResponse, HttpHeaders, HttpResponse} from '@angular/common/http';
-import { AppNotify } from '@app/utilities';
+import { AppNotify, TOKEN_STORE_NAME } from '@app/utilities';
 import {catchError, map} from 'rxjs/operators';
 
 @Injectable({
@@ -34,6 +34,10 @@ export class BaseService {
 				Authorization: this.headerAuthorizationKey,
 			})
 		};
+	}
+
+	get isLoggedIn(): boolean {
+		return sessionStorage.getItem(TOKEN_STORE_NAME) != null;
 	}
 
   private handleError(error: HttpErrorResponse){
