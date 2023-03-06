@@ -1,9 +1,12 @@
-"# TaskManager" 
+"# TaskManager"
+![image](https://user-images.githubusercontent.com/42039274/223007925-c96dca95-a296-4691-ae74-95be70804252.png)
 
 # Database : You need to run 2 script 
 1. Open TM.Database folder.
 2. Run 'script-database.sql' file in MSSMS
 3. Run 'script-seeds.sql' file in MSSMS (needed)
+![diagram](https://user-images.githubusercontent.com/42039274/223007748-f46eaf31-22f9-46e5-92f1-89b58b8400df.png)
+
 
 # Back-end : 
 1. Open 'TaskManager.sln'
