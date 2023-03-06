@@ -5,6 +5,7 @@
 1. Open TM.Database folder.
 2. Run 'script-database.sql' file in MSSMS
 3. Run 'script-seeds.sql' file in MSSMS (needed)
+4. Diagram TaskManager (todo)
 ![diagram](https://user-images.githubusercontent.com/42039274/223007748-f46eaf31-22f9-46e5-92f1-89b58b8400df.png)
 
 
