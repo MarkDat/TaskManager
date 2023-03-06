@@ -1,4 +1,4 @@
-"# TaskManager"
+"# TaskManager" (Todo)
 ![image](https://user-images.githubusercontent.com/42039274/223007925-c96dca95-a296-4691-ae74-95be70804252.png)
 
 # Database : You need to run 2 script 
@@ -11,7 +11,7 @@
 # Back-end : 
 1. Open 'TaskManager.sln'
 
-# UI:
+# UI: Angular + Devextreme 
 1. Open 'TM.UI' folder by VS Code
 2. Run command : npm install
 
