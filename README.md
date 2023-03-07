@@ -19,3 +19,4 @@
 # Run
 1. Access to 'http://localhost:4821/'
 2. Enter username/password : admin/123
+- [tag:yarn]
