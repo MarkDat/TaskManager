@@ -19,4 +19,5 @@
 # Run
 1. Access to 'http://localhost:4821/'
 2. Enter username/password : admin/123
-- [tag:yarn]
+[![CDNJS](https://img.shields.io/cdnjs/v/reactstrap.svg)](https://cdnjs.com/libraries/reactstrap)
+
